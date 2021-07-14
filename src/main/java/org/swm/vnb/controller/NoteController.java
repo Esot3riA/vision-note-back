@@ -38,9 +38,16 @@ public class NoteController {
         note2.setName("임시 노트 2");
         note2.setDate("2021-06-28T12:00:00");
 
+        NoteVO note3 = new NoteVO();
+        note3.setId(3);
+        note3.setOwnerId(ownerId);
+        note3.setName("임시 노트 3");
+        note3.setDate("2021-06-28T12:00:00");
+
         List<NoteVO> notes = new ArrayList<>();
         notes.add(note);
         notes.add(note2);
+        notes.add(note3);
 
         return new ResponseEntity(notes, HttpStatus.OK);
     }
