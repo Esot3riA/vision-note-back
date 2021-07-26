@@ -1,8 +1,8 @@
 package org.swm.vnb.controller;
 
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.swm.vnb.model.UserVO;
-import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,30 +22,47 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
-    public ResponseEntity getAllUser() {
-        List<UserVO> users = userService.getAllUser();
-        return new ResponseEntity(users, HttpStatus.OK);
-    }
-
     @GetMapping("/user/{id:[0-9]+}")
+    @ApiOperation(value="유저 조회", notes="주어진 ID를 가진 유저의 정보를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code=200, message="성공"),
+            @ApiResponse(code=403, message="조회 권한 없음")})
     public ResponseEntity getUser(@PathVariable Integer id) {
         UserVO user = userService.getUser(id);
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
-    @PostMapping("/user/{id:[0-9]+}")
-    public ResponseEntity createUser(@PathVariable Integer id) {
+    @PostMapping(value="/user")
+    @ApiOperation(value="유저 등록", notes="새로운 유저를 등록한다.")
+    @ApiResponses({
+            @ApiResponse(code=200, message="등록 성공"),
+            @ApiResponse(code=400, message="제출된 데이터 부족")})
+    public ResponseEntity createUser(@ModelAttribute UserVO user) {
+        userService.createUser(user);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/user/{id:[0-9]+}")
-    public ResponseEntity updateUser(@PathVariable Integer id) {
+    @ApiOperation(value="유저 정보 수정", notes="이미 등록된 유저의 정보를 수정한다. 기존 유저 정보가 파라미터로 주어진 정보로 모두 대체된다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음"),
+            @ApiResponse(code=403, message="수정 권한 없음")})
+    @ResponseStatus(value=HttpStatus.NO_CONTENT)
+    public ResponseEntity updateUser(@PathVariable Integer id, @ModelAttribute UserVO user) {
+        userService.updateUser(id, user);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/user/{id:[0-9]+}")
+    @ApiOperation(value="유저 삭제", notes="유저를 삭제한다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음"),
+            @ApiResponse(code=403, message="삭제 권한 없음")})
+    @ResponseStatus(value=HttpStatus.NO_CONTENT)
     public ResponseEntity deleteUser(@PathVariable Integer id) {
+        userService.deleteUser(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
