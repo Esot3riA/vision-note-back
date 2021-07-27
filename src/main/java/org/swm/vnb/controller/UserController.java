@@ -2,6 +2,7 @@ package org.swm.vnb.controller;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.swm.vnb.model.UserTypeVO;
 import org.swm.vnb.model.UserVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,15 @@ public class UserController {
     public ResponseEntity getUser(@PathVariable Integer id) {
         UserVO user = userService.getUser(id);
         return new ResponseEntity(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/user-types")
+    @ApiOperation(value="유저 유형 조회", notes="모든 유저 유형을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code=200, message="성공")})
+    public ResponseEntity getUserTypes() {
+        List<UserTypeVO> userTypes = userService.getUserTypes();
+        return new ResponseEntity(userTypes, HttpStatus.OK);
     }
 
     @PostMapping(value="/user")

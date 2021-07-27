@@ -6,6 +6,10 @@
         FROM user
         WHERE user_id = #{id}
     </select>
+    <select id="getUserTypes" resultType="UserTypeVO">
+        SELECT *
+        FROM user_type
+    </select>
 
     <insert id="createUser" parameterType="UserVO">
         INSERT INTO user
