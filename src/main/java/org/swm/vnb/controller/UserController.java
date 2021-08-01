@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping("/user/{id:[0-9]+}")
     @ApiOperation(value="유저 조회", notes="주어진 ID를 가진 유저의 정보를 조회한다.")
     @ApiResponses({
-            @ApiResponse(code=200, message="성공"),
+            @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=403, message="조회 권한 없음")})
     public ResponseEntity getUser(@PathVariable Integer id) {
         UserVO user = userService.getUser(id);
@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("/user-types")
     @ApiOperation(value="유저 유형 조회", notes="모든 유저 유형을 조회한다.")
     @ApiResponses({
-            @ApiResponse(code=200, message="성공")})
+            @ApiResponse(code=200, message="조회 성공")})
     public ResponseEntity getUserTypes() {
         List<UserTypeVO> userTypes = userService.getUserTypes();
         return new ResponseEntity(userTypes, HttpStatus.OK);
