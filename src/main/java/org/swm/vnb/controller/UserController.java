@@ -12,7 +12,7 @@ import org.swm.vnb.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 @Api(tags = {"유저 API"})
 public class UserController {
 
