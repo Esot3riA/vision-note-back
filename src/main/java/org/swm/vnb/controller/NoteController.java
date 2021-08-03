@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.swm.vnb.model.NoteFileVO;
 import org.swm.vnb.model.NoteItemVO;
 import org.swm.vnb.service.NoteService;
@@ -27,6 +24,16 @@ public class NoteController {
     @Autowired
     public NoteController(NoteService noteService) {
         this.noteService = noteService;
+    }
+
+    @GetMapping("/rootnote")
+    @ApiOperation(value="루트 폴더 조회", notes="유저의 루트 폴더에 있는 노트 파일 및 폴더들을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code=200, message="조회 성공"),
+            @ApiResponse(code=403, message="조회 권한 없음")})
+    public ResponseEntity getRootNoteItems(@RequestParam Integer userId) {
+        List<NoteItemVO> noteItems = noteService.getRootNoteItems(userId);
+        return new ResponseEntity(noteItems, HttpStatus.OK);
     }
 
     @GetMapping("/note/{folderId:[0-9]+}")

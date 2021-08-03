@@ -11,6 +11,11 @@
         FROM note_folder
         WHERE parent_folder_id = #{folderId}
     </select>
+    <select id="getRootFolderId" parameterType="int" resultType="int">
+        SELECT folder_id
+        FROM note_folder
+        WHERE user_id = #{userId} AND parent_folder_id IS NULL
+    </select>
     <select id="searchNotes" parameterType="String" resultType="NoteFileVO">
         SELECT *
         FROM note_file

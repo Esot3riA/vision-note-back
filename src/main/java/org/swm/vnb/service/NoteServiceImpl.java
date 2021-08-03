@@ -43,6 +43,12 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    public List<NoteItemVO> getRootNoteItems(Integer userId) {
+        Integer rootFolderId = noteDAO.getRootFolderId(userId);
+        return getNoteItems(rootFolderId);
+    }
+
+    @Override
     public List<NoteFileVO> searchNotes(String keyword) {
         return noteDAO.searchNotes(keyword);
     }

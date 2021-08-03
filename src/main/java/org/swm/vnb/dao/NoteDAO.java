@@ -12,5 +12,6 @@ import java.util.List;
 public interface NoteDAO {
     List<NoteFileVO> getNoteFiles(Integer folderId);
     List<NoteFolderVO> getNoteFolders(Integer folderId);
+    Integer getRootFolderId(Integer userId);
     List<NoteFileVO> searchNotes(String keyword);
 }
