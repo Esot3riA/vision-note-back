@@ -48,6 +48,4 @@ public class NoteController {
         List<NoteFileVO> noteFiles = noteService.searchNotes(keyword);
         return new ResponseEntity(noteFiles, HttpStatus.OK);
     }
-
-
 }
