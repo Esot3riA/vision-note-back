@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.swm.vnb.dao.ScriptDAO">
+    <select id="getScript" parameterType="int" resultType="ScriptVO">
+        SELECT *
+        FROM script
+        WHERE script_id = #{scriptId}
+    </select>
+    <select id="getScriptParagraphs" parameterType="int" resultType="ScriptParagraphVO">
+        SELECT *
+        FROM script_paragraph
+        WHERE script_id = #{scriptId}
+    </select>
+</mapper>
