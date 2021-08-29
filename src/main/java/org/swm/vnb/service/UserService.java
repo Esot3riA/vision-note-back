@@ -8,6 +8,7 @@ import java.util.List;
 public interface UserService {
     UserVO getUserById(Integer id);
     UserVO getUserByEmail(String email);
+    UserVO getUserByContext();
     List<UserTypeVO> getUserTypes();
     void createUser(UserVO user);
     void updateUser(Integer id, UserVO user);

@@ -18,9 +18,9 @@
 
     <insert id="createUser" parameterType="UserVO">
         INSERT INTO user
-            (type_id, email, password, level, nickname, avatar, social_type)
+            (type_id, email, password, authority, nickname, avatar, social_type)
         VALUES
-            (#{type_id}, #{email}, #{password}, #{level}, #{nickname}, #{avatar}, #{social_type})
+            (#{type_id}, #{email}, #{password}, #{authority}, #{nickname}, #{avatar}, #{social_type})
     </insert>
 
     <update id="updateUser" parameterType="UserVO">
