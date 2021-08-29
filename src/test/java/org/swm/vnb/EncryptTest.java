@@ -10,12 +10,14 @@ public class EncryptTest {
 
     PooledPBEStringEncryptor encryptor;
 
+    private String encryptKey = System.getProperty("JASYPT_ENCRYPTOR_PASSWORD");
+
     @BeforeEach
     public void InitEncryptor() {
         encryptor = new PooledPBEStringEncryptor();
 
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword("password");
+        config.setPassword(encryptKey);
         config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
         config.setKeyObtentionIterations("1000");
         config.setPoolSize("1");
@@ -32,7 +34,7 @@ public class EncryptTest {
         String plainText = "plainText";
 
         String encryptedText = encryptor.encrypt(plainText);
-        System.out.println("Encrypted Text : " + encryptedText);
+        System.out.println("Encrypted Text : \n" + encryptedText);
         String decryptedText = encryptor.decrypt(encryptedText);
 
         Assertions.assertEquals(plainText, decryptedText);
