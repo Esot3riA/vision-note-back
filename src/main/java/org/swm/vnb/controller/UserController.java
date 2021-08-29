@@ -25,24 +25,13 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    @ApiOperation(value="내 정보 조회", notes="내 유저 정보를 조회한다.")
+    @ApiOperation(value="내 정보 조회", notes="현재 로그인 된 유저 정보를 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
-            @ApiResponse(code=403, message="조회 권한 없음")})
+            @ApiResponse(code=401, message="로그인 안 됨")})
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity getMyUserInfo() {
+    public ResponseEntity getMyInfo() {
         return ResponseEntity.ok(userService.getUserByContext());
-    }
-
-    @GetMapping("/user/{id:[0-9]+}")
-    @ApiOperation(value="특정 유저 정보 조회", notes="주어진 ID를 가진 유저의 정보를 조회한다.")
-    @ApiResponses({
-            @ApiResponse(code=200, message="조회 성공"),
-            @ApiResponse(code=403, message="조회 권한 없음")})
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity getUserInfo(@PathVariable Integer id) {
-        UserVO user = userService.getUserById(id);
-        return new ResponseEntity(user, HttpStatus.OK);
     }
 
     @GetMapping("/user-types")
@@ -51,42 +40,48 @@ public class UserController {
             @ApiResponse(code=200, message="조회 성공")})
     public ResponseEntity getUserTypes() {
         List<UserTypeVO> userTypes = userService.getUserTypes();
-        return new ResponseEntity(userTypes, HttpStatus.OK);
+        return ResponseEntity.ok(userTypes);
     }
 
     @PostMapping(value="/user")
     @ApiOperation(value="유저 등록", notes="새로운 유저를 등록한다. 인증 없이 호출할 수 있다.")
     @ApiResponses({
             @ApiResponse(code=200, message="등록 성공"),
-            @ApiResponse(code=400, message="제출된 데이터 부족")})
+            @ApiResponse(code=400, message="제출된 데이터 부족"),
+            @ApiResponse(code=409, message="이메일 중복")})
     public ResponseEntity createUser(@ModelAttribute UserVO user) {
-        userService.createUser(user);
-        return new ResponseEntity(HttpStatus.CREATED);
+        try {
+            userService.createUser(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
-    @PutMapping("/user/{id:[0-9]+}")
-    @ApiOperation(value="유저 정보 수정", notes="이미 등록된 유저의 정보를 수정한다. 기존 유저 정보가 파라미터로 주어진 정보로 모두 대체된다.")
+    @PutMapping("/user")
+    @ApiOperation(value="내 정보 수정", notes="현재 유저의 정보를 수정한다. 기존 유저 정보가 파라미터로 주어진 정보로 모두 대체된다.")
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음"),
             @ApiResponse(code=403, message="수정 권한 없음")})
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity updateUser(@PathVariable Integer id, @ModelAttribute UserVO user) {
-        userService.updateUser(id, user);
+    public ResponseEntity updateMyInfo(@ModelAttribute UserVO user) {
+        userService.updateMyInfo(user);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/user/{id:[0-9]+}")
-    @ApiOperation(value="유저 삭제", notes="유저를 삭제한다.")
+    @DeleteMapping("/user")
+    @ApiOperation(value="내 계정 삭제", notes="현재 로그인 된 유저 계정을 삭제한다.")
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음"),
             @ApiResponse(code=403, message="삭제 권한 없음")})
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
+    public ResponseEntity deleteMyAccount() {
+        userService.deleteMe();
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

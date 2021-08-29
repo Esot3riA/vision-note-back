@@ -19,6 +19,7 @@ import org.swm.vnb.jwt.JwtFilter;
 import org.swm.vnb.jwt.TokenProvider;
 import org.swm.vnb.model.TokenVO;
 import org.swm.vnb.model.UserVO;
+import org.swm.vnb.service.UserService;
 
 @RestController
 @RequestMapping("/v1")
@@ -26,11 +27,14 @@ import org.swm.vnb.model.UserVO;
 public class AuthController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final UserService userService;
 
     public AuthController(TokenProvider tokenProvider,
-                          AuthenticationManagerBuilder authenticationManagerBuilder) {
+                          AuthenticationManagerBuilder authenticationManagerBuilder,
+                          UserService userService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.userService = userService;
     }
 
     @PostMapping("/authenticate")
@@ -40,8 +44,10 @@ public class AuthController {
             @ApiResponse(code=401, message="유저 정보 없음")})
     public ResponseEntity authenticate(@ModelAttribute UserVO user) {
 
+        Integer userId = userService.getUserIdByEmail(user.getEmail());
+
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+                new UsernamePasswordAuthenticationToken(userId, user.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);

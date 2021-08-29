@@ -12,7 +12,7 @@ public class SecurityUtil {
 
     private SecurityUtil() {}
 
-    public static String getCurrentUserEmail() {
+    public static Integer getCurrentUserId() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
@@ -20,15 +20,15 @@ public class SecurityUtil {
             return null;
         }
 
-        String email = null;
+        String id = null;
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-            email = springSecurityUser.getUsername();
+            id = springSecurityUser.getUsername();
         }  else if (authentication.getPrincipal() instanceof String) {
-            email = (String) authentication.getPrincipal();
+            id = (String) authentication.getPrincipal();
         }
 
-        return email;
+        return Integer.parseInt(id);
     }
 
 }

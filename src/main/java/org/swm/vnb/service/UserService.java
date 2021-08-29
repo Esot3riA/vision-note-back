@@ -8,9 +8,10 @@ import java.util.List;
 public interface UserService {
     UserVO getUserById(Integer id);
     UserVO getUserByEmail(String email);
+    Integer getUserIdByEmail(String email);
     UserVO getUserByContext();
     List<UserTypeVO> getUserTypes();
     void createUser(UserVO user);
-    void updateUser(Integer id, UserVO user);
-    void deleteUser(Integer id);
+    void updateMyInfo(UserVO user);
+    void deleteMe();
 }

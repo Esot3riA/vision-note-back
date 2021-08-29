@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface UserDAO {
     UserVO getUserById(Integer id);
     UserVO getUserByEmail(String email);
+    Integer getUserIdByEmail(String email);
     List<UserTypeVO> getUserTypes();
     void createUser(UserVO user);
     void updateUser(UserVO user);

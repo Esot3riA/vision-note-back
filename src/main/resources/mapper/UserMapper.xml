@@ -11,6 +11,11 @@
         FROM user
         WHERE email = #{email}
     </select>
+    <select id="getUserIdByEmail" parameterType="String" resultType="Integer">
+        SELECT user_id
+        FROM user
+        WHERE email = #{email}
+    </select>
     <select id="getUserTypes" resultType="UserTypeVO">
         SELECT *
         FROM user_type

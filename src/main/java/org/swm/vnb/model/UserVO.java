@@ -53,7 +53,7 @@ public class UserVO implements UserDetails {
     @Override
     @ApiModelProperty(hidden = true)
     public String getUsername() {
-        return email;
+        return user_id.toString();
     }
 
     @Override

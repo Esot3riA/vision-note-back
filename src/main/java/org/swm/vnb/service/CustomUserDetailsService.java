@@ -19,10 +19,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserVO user = userDAO.getUserByEmail(username);
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        UserVO user = userDAO.getUserById(Integer.parseInt(userId));
         if (user == null) {
-            throw new UsernameNotFoundException(username + " is not exist.");
+            throw new UsernameNotFoundException("User " + userId + " is not exist.");
         }
         return user;
     }
