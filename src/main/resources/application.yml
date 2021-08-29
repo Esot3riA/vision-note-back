@@ -15,3 +15,12 @@ mybatis:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
+
+jwt:
+  header: Authorization
+  secret: ENC(6G9N7wMf9N4E7WLnskaGQhGo+m2EROg9xOJEVARHZg/ZyQbxYkto8twrxQg+lv/2Y5xT1EpxoJwIH1D0T80Gj3gzN2q4AHH7fCtkCX3eEGG3kKiuekJ0tljGSHVYRW8X8ttobXrYv2JxXvcUb0z/KSsU4MmuDw/xAI57CbklY+zB+Z3K7WvjODynuZWAL/thARkJ1XnI4H1UiW3awKNjCicPm7jYihkS+ExSmTPjkNk=)
+  token-validity-in-seconds: 86400
+
+logging:
+  level:
+    org.swm.vnb: DEBUG

@@ -29,7 +29,7 @@ public class UserController {
             @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=403, message="조회 권한 없음")})
     public ResponseEntity getUser(@PathVariable Integer id) {
-        UserVO user = userService.getUser(id);
+        UserVO user = userService.getUserById(id);
         return new ResponseEntity(user, HttpStatus.OK);
     }
 

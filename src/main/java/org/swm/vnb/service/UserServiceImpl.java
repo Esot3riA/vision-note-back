@@ -18,8 +18,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO getUser(Integer id) {
-        return userDAO.getUser(id);
+    public UserVO getUserById(Integer id) {
+        return userDAO.getUserById(id);
+    }
+
+    @Override
+    public UserVO getUserByEmail(String email) {
+        return userDAO.getUserByEmail(email);
     }
 
     @Override

@@ -6,11 +6,13 @@ import org.swm.vnb.model.UserTypeVO;
 import org.swm.vnb.model.UserVO;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Mapper
 public interface UserDAO {
-    UserVO getUser(Integer id);
+    UserVO getUserById(Integer id);
+    UserVO getUserByEmail(String email);
     List<UserTypeVO> getUserTypes();
     void createUser(UserVO user);
     void updateUser(UserVO user);
