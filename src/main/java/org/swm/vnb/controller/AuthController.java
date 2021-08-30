@@ -11,10 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.swm.vnb.jwt.JwtFilter;
 import org.swm.vnb.jwt.TokenProvider;
 import org.swm.vnb.model.TokenVO;
@@ -42,12 +39,13 @@ public class AuthController {
     @ApiResponses({
             @ApiResponse(code=200, message="인증 성공"),
             @ApiResponse(code=401, message="유저 정보 없음")})
-    public ResponseEntity authenticate(@ModelAttribute UserVO user) {
+    public ResponseEntity authenticate(@RequestParam("email") String email,
+                                       @RequestParam("password") String password) {
 
-        Integer userId = userService.getUserIdByEmail(user.getEmail());
+        Integer userId = userService.getUserIdByEmail(email);
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userId, user.getPassword());
+                new UsernamePasswordAuthenticationToken(userId, password);
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
