@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface NoteService {
     List<NoteItemVO> getNoteItems(Integer folderId);
-    List<NoteItemVO> getRootNoteItems(Integer userId);
+    List<NoteItemVO> getMyRootNoteItems();
     List<NoteFileVO> searchNotes(String keyword);
 }

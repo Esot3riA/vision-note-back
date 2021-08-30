@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.swm.vnb.model.NoteFileVO;
 import org.swm.vnb.model.NoteItemVO;
@@ -27,12 +28,13 @@ public class NoteController {
     }
 
     @GetMapping("/rootnote")
-    @ApiOperation(value="루트 폴더 조회", notes="유저의 루트 폴더에 있는 노트 파일 및 폴더들을 조회한다.")
+    @ApiOperation(value="루트 폴더 조회", notes="현재 로그인 된 유저의 루트 폴더에 있는 노트 파일 및 폴더를 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=403, message="조회 권한 없음")})
-    public ResponseEntity getRootNoteItems(@RequestParam Integer userId) {
-        List<NoteItemVO> noteItems = noteService.getRootNoteItems(userId);
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity getRootNoteItems() {
+        List<NoteItemVO> noteItems = noteService.getMyRootNoteItems();
         return new ResponseEntity(noteItems, HttpStatus.OK);
     }
 

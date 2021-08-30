@@ -7,6 +7,7 @@ import org.swm.vnb.model.NoteFileVO;
 import org.swm.vnb.model.NoteFolderVO;
 import org.swm.vnb.model.NoteItemVO;
 import org.swm.vnb.model.NoteItemVO.ItemType;
+import org.swm.vnb.util.SecurityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteItemVO> getRootNoteItems(Integer userId) {
-        Integer rootFolderId = noteDAO.getRootFolderId(userId);
+    public List<NoteItemVO> getMyRootNoteItems() {
+        Integer rootFolderId = noteDAO.getRootFolderId(SecurityUtil.getCurrentUserId());
         return getNoteItems(rootFolderId);
     }
 
