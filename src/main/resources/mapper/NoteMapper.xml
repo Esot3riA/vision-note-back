@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.swm.vnb.dao.NoteDAO">
-    <select id="getNoteFiles" parameterType="Map" resultType="NoteFileVO">
+    <select id="getNoteFiles" parameterType="HashMap" resultType="NoteFileVO">
         SELECT nf.file_id, nf.folder_id, sc.category_name, nf.file_name, nf.is_important, nf.created_at
         FROM note_file nf
-        INNER JOIN script_category sc
-            ON nf.category_id = sc.category_id
+        INNER JOIN script_category sc ON nf.category_id = sc.category_id
         WHERE
             folder_id = #{folderId}
             AND nf.user_id = #{userId}
     </select>
 
-    <select id="getNoteFolders" parameterType="Map" resultType="NoteFolderVO">
+    <select id="getNoteFolders" parameterType="HashMap" resultType="NoteFolderVO">
         SELECT folder_id, parent_folder_id, folder_name, created_at
         FROM note_folder
         WHERE
@@ -25,9 +24,15 @@
         WHERE user_id = #{userId} AND parent_folder_id IS NULL
     </select>
 
-    <select id="searchNotes" parameterType="String" resultType="NoteFileVO">
-        SELECT *
-        FROM note_file
-        WHERE file_name LIKE CONCAT('%', #{keyword}, '%');
+    <select id="searchNotes" parameterType="HashMap" resultType="HashMap">
+        SELECT s.script_id, s.title, sp.paragraph_content, nfo.folder_name
+        FROM script s
+        INNER JOIN script_paragraph sp ON s.script_id = sp.script_id
+        INNER JOIN note_file nfl ON s.file_id = nfl.file_id
+        INNER JOIN note_folder nfo ON nfl.folder_id = nfo.folder_id
+        WHERE
+            s.user_id = #{userId}
+            AND sp.paragraph_content LIKE CONCAT('%', #{keyword}, '%')
+        GROUP BY s.script_id
     </select>
 </mapper>

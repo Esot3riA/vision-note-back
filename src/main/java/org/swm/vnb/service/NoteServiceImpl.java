@@ -24,28 +24,14 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteItemVO> getMyNoteItems(Integer folderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        return getNoteItems(folderId, currentUserId);
-    }
-
-    @Override
-    public List<NoteItemVO> getMyRootNoteItems() {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-        Integer rootFolderId = noteDAO.getRootFolderId(currentUserId);
-
-        return getNoteItems(rootFolderId, currentUserId);
-    }
-
     public List<NoteItemVO> getNoteItems(Integer folderId, Integer userId) {
 
-        Map<String, String> parentNoteParams = new HashMap<>();
-        parentNoteParams.put("folderId", folderId.toString());
-        parentNoteParams.put("userId", userId.toString());
+        Map<String, String> params = new HashMap<>();
+        params.put("folderId", folderId.toString());
+        params.put("userId", userId.toString());
 
-        List<NoteFileVO> files = noteDAO.getNoteFiles(parentNoteParams);
-        List<NoteFolderVO> folders = noteDAO.getNoteFolders(parentNoteParams);
+        List<NoteFileVO> files = noteDAO.getNoteFiles(params);
+        List<NoteFolderVO> folders = noteDAO.getNoteFolders(params);
 
         List<NoteItemVO> noteItems = new ArrayList<>();
         for (NoteFileVO file : files) {
@@ -65,7 +51,28 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteFileVO> searchNotes(String keyword) {
-        return noteDAO.searchNotes(keyword);
+    public List<NoteItemVO> getMyNoteItems(Integer folderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        return getNoteItems(folderId, currentUserId);
+    }
+
+    @Override
+    public List<NoteItemVO> getMyRootNoteItems() {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        Integer rootFolderId = noteDAO.getRootFolderId(currentUserId);
+
+        return getNoteItems(rootFolderId, currentUserId);
+    }
+
+    @Override
+    public List<HashMap<String, Object>> searchNotes(String keyword) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", currentUserId.toString());
+        params.put("keyword", keyword);
+
+        return noteDAO.searchNotes(params);
     }
 }

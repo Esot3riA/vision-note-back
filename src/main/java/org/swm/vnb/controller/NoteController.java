@@ -13,6 +13,7 @@ import org.swm.vnb.model.NoteFileVO;
 import org.swm.vnb.model.NoteItemVO;
 import org.swm.vnb.service.NoteService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -52,12 +53,13 @@ public class NoteController {
     }
 
     @GetMapping("/note/search/{keyword}")
-    @ApiOperation(value="노트 검색", notes="학습노트 제목을 검색한다.")
+    @ApiOperation(value="노트 검색", notes="전체 학습노트 내용을 검색한다.")
     @ApiResponses({
-            @ApiResponse(code=200, message="등록 성공"),
+            @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=403, message="조회 권한 없음")})
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity searchNotes(@PathVariable String keyword) {
-        List<NoteFileVO> noteFiles = noteService.searchNotes(keyword);
+        List<HashMap<String, Object>> noteFiles = noteService.searchNotes(keyword);
 
         return ResponseEntity.ok(noteFiles);
     }
