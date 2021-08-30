@@ -6,10 +6,11 @@ import org.swm.vnb.model.ScriptParagraphVO;
 import org.swm.vnb.model.ScriptVO;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
 public interface ScriptDAO {
-    ScriptVO getScript(Integer scriptId);
-    List<ScriptParagraphVO> getScriptParagraphs(Integer scriptId);
+    ScriptVO getScript(Map<String, String> params);
+    List<ScriptParagraphVO> getScriptParagraphs(Map<String, String> params);
 }

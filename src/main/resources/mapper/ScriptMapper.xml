@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.swm.vnb.dao.ScriptDAO">
-    <select id="getScript" parameterType="int" resultType="ScriptVO">
-        SELECT *
+    <select id="getScript" parameterType="HashMap" resultType="ScriptVO">
+        SELECT script_id, title, is_recording, audio_file, video_file, created_at
         FROM script
         WHERE script_id = #{scriptId}
+            AND user_id = #{userId}
     </select>
-    <select id="getScriptParagraphs" parameterType="int" resultType="ScriptParagraphVO">
-        SELECT *
-        FROM script_paragraph
-        WHERE script_id = #{scriptId}
+    <select id="getScriptParagraphs" parameterType="HashMap" resultType="ScriptParagraphVO">
+        SELECT sp.paragraph_id, sp.script_id, sp.paragraph_sequence, sp.start_time, sp.end_time,
+            sp.paragraph_content, sp.memo_content, sp.is_bookmarked, sp.created_at
+        FROM script_paragraph sp
+        INNER JOIN script s ON sp.script_id = s.script_id
+        WHERE sp.script_id = #{scriptId}
+            AND s.user_id = #{userId}
     </select>
 </mapper>

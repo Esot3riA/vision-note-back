@@ -14,7 +14,7 @@ public class ScriptVO {
     private Integer is_recording;
     private String audio_file;
     private String video_file;
-    private String create_at;
+    private String created_at;
     private String updated_at;
 
     private List<ScriptParagraphVO> scriptParagraphs;
