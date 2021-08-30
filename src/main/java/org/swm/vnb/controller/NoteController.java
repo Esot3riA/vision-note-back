@@ -44,8 +44,9 @@ public class NoteController {
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=403, message="조회 권한 없음")})
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity getNoteItems(@PathVariable Integer folderId) {
-        List<NoteItemVO> noteItems = noteService.getNoteItems(folderId);
+        List<NoteItemVO> noteItems = noteService.getMyNoteItems(folderId);
 
         return ResponseEntity.ok(noteItems);
     }

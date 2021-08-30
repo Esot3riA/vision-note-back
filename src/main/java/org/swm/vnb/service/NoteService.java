@@ -6,7 +6,7 @@ import org.swm.vnb.model.NoteItemVO;
 import java.util.List;
 
 public interface NoteService {
-    List<NoteItemVO> getNoteItems(Integer folderId);
+    List<NoteItemVO> getMyNoteItems(Integer folderId);
     List<NoteItemVO> getMyRootNoteItems();
     List<NoteFileVO> searchNotes(String keyword);
 }

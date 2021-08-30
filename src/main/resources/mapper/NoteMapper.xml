@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.swm.vnb.dao.NoteDAO">
-    <select id="getNoteFiles" parameterType="int" resultType="NoteFileVO">
-        SELECT
-            nf.file_id, nf.folder_id, sc.category_name, nf.file_name, nf.is_important, nf.created_at
+    <select id="getNoteFiles" parameterType="Map" resultType="NoteFileVO">
+        SELECT nf.file_id, nf.folder_id, sc.category_name, nf.file_name, nf.is_important, nf.created_at
         FROM note_file nf
-        INNER JOIN script_category sc ON nf.category_id = sc.category_id
-        WHERE folder_id = #{folderId}
+        INNER JOIN script_category sc
+            ON nf.category_id = sc.category_id
+        WHERE
+            folder_id = #{folderId}
+            AND nf.user_id = #{userId}
     </select>
 
-    <select id="getNoteFolders" parameterType="int" resultType="NoteFolderVO">
-        SELECT *
+    <select id="getNoteFolders" parameterType="Map" resultType="NoteFolderVO">
+        SELECT folder_id, parent_folder_id, folder_name, created_at
         FROM note_folder
-        WHERE parent_folder_id = #{folderId}
+        WHERE
+            parent_folder_id = #{folderId}
+            AND user_id = #{userId}
     </select>
 
     <select id="getRootFolderId" parameterType="int" resultType="int">
