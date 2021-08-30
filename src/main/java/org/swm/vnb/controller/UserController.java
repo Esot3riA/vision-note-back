@@ -28,7 +28,7 @@ public class UserController {
     @ApiOperation(value="내 정보 조회", notes="현재 로그인 된 유저 정보를 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
-            @ApiResponse(code=401, message="로그인 안 됨")})
+            @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity getMyInfo() {
         return ResponseEntity.ok(userService.getUserByContext());
@@ -64,8 +64,7 @@ public class UserController {
     @ApiOperation(value="내 정보 수정", notes="현재 유저의 정보를 수정한다. 기존 유저 정보가 파라미터로 주어진 정보로 모두 대체된다.")
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
-            @ApiResponse(code=401, message="로그인되지 않음"),
-            @ApiResponse(code=403, message="수정 권한 없음")})
+            @ApiResponse(code=401, message="로그인되지 않음")})
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateMyInfo(@ModelAttribute UserVO user) {
@@ -78,8 +77,7 @@ public class UserController {
     @ApiOperation(value="내 계정 삭제", notes="현재 로그인 된 유저 계정을 삭제한다.")
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
-            @ApiResponse(code=401, message="로그인되지 않음"),
-            @ApiResponse(code=403, message="삭제 권한 없음")})
+            @ApiResponse(code=401, message="로그인되지 않음")})
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity deleteMyAccount() {

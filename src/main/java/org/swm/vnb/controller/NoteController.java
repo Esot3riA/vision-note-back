@@ -32,7 +32,7 @@ public class NoteController {
     @ApiOperation(value="루트 폴더 조회", notes="현재 로그인 된 유저의 루트 폴더에 있는 노트 파일 및 폴더를 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
-            @ApiResponse(code=403, message="조회 권한 없음")})
+            @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity getRootNoteItems() {
         List<NoteItemVO> noteItems = noteService.getMyRootNoteItems();
@@ -44,7 +44,7 @@ public class NoteController {
     @ApiOperation(value="폴더 조회", notes="요청한 폴더 하위의 노트 파일 및 폴더들을 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
-            @ApiResponse(code=403, message="조회 권한 없음")})
+            @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity getNoteItems(@PathVariable Integer folderId) {
         List<NoteItemVO> noteItems = noteService.getMyNoteItems(folderId);
@@ -53,10 +53,10 @@ public class NoteController {
     }
 
     @GetMapping("/note/search/{keyword}")
-    @ApiOperation(value="노트 검색", notes="전체 학습노트 내용을 검색한다.")
+    @ApiOperation(value="노트 검색", notes="모든 노트를 검색한다. 유저의 모든 학습노트 중 keyword가 포함된 노트를 반환한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
-            @ApiResponse(code=403, message="조회 권한 없음")})
+            @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity searchNotes(@PathVariable String keyword) {
         List<HashMap<String, Object>> noteFiles = noteService.searchNotes(keyword);
