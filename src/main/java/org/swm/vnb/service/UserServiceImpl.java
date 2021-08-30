@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateMyInfo(UserVO user)  {
-        user.setUser_id(SecurityUtil.getCurrentUserId());
+        user.setUserId(SecurityUtil.getCurrentUserId());
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 

@@ -11,6 +11,8 @@ spring:
 mybatis:
   type-aliases-package: org.swm.vnb.model
   mapper-locations: mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 
 jasypt:
   encryptor:

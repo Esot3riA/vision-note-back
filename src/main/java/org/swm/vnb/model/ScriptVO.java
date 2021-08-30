@@ -6,16 +6,16 @@ import java.util.List;
 
 @Data
 public class ScriptVO {
-    private Integer script_id;
-    private Integer user_id;
-    private Integer file_id;
-    private Integer category_id;
+    private Integer scriptId;
+    private Integer userId;
+    private Integer fileId;
+    private Integer categoryId;
     private String title;
-    private Integer is_recording;
-    private String audio_file;
-    private String video_file;
-    private String created_at;
-    private String updated_at;
+    private Integer isRecording;
+    private String audioFile;
+    private String videoFile;
+    private String createdAt;
+    private String updatedAt;
 
     private List<ScriptParagraphVO> scriptParagraphs;
 }

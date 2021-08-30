@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class UserTypeVO {
-    private Integer type_id;
-    private String type_name;
-    private String created_at;
-    private String updated_at;
+    private Integer typeId;
+    private String typeName;
+    private String createdAt;
+    private String updatedAt;
 }

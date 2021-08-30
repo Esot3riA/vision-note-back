@@ -25,21 +25,21 @@
         INSERT INTO user
             (type_id, email, password, authority, nickname, avatar, social_type)
         VALUES
-            (#{type_id}, #{email}, #{password}, #{authority}, #{nickname}, #{avatar}, #{social_type})
+            (#{typeId}, #{email}, #{password}, #{authority}, #{nickname}, #{avatar}, #{socialType})
     </insert>
 
     <update id="updateUser" parameterType="UserVO">
         UPDATE user
-        SET type_id=#{type_id},
-            password=#{password},
-            nickname=#{nickname},
-            avatar=#{avatar},
-            social_type=#{social_type}
-        WHERE user_id = #{user_id}
+        SET type_id = #{typeId},
+            password = #{password},
+            nickname = #{nickname},
+            avatar = #{avatar},
+            social_type = #{socialType}
+        WHERE user_id = #{userId}
     </update>
 
     <delete id="deleteUser" parameterType="int">
         DELETE FROM user
-        WHERE user_id = #{user_id}
+        WHERE user_id = #{userId}
     </delete>
 </mapper>

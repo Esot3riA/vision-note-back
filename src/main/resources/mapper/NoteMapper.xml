@@ -25,7 +25,7 @@
     </select>
 
     <select id="searchNotes" parameterType="HashMap" resultType="HashMap">
-        SELECT s.script_id, s.title, sp.paragraph_content, nfo.folder_name
+        SELECT s.script_id AS scriptId, s.title, sp.paragraph_content AS paragraphContent, nfo.folder_name AS folderName
         FROM script s
         INNER JOIN script_paragraph sp ON s.script_id = sp.script_id
         INNER JOIN note_file nfl ON s.file_id = nfl.file_id

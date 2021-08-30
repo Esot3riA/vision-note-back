@@ -14,10 +14,10 @@ import java.util.List;
 public class UserVO implements UserDetails {
 
     @ApiModelProperty(hidden = true)
-    private Integer user_id;
+    private Integer userId;
 
     @ApiModelProperty(required = true, example = "1")
-    private Integer type_id;
+    private Integer typeId;
 
     @ApiModelProperty(required = true)
     private String email;
@@ -35,12 +35,12 @@ public class UserVO implements UserDetails {
     private String avatar;
 
     @ApiModelProperty(required = true)
-    private String social_type;
+    private String socialType;
 
     @ApiModelProperty(hidden = true)
-    private String created_at;
+    private String createdAt;
     @ApiModelProperty(hidden = true)
-    private String updated_at;
+    private String updatedAt;
 
     @Override
     @ApiModelProperty(hidden = true)
@@ -53,7 +53,7 @@ public class UserVO implements UserDetails {
     @Override
     @ApiModelProperty(hidden = true)
     public String getUsername() {
-        return user_id.toString();
+        return userId.toString();
     }
 
     @Override
