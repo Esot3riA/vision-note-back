@@ -35,7 +35,8 @@ public class NoteController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity getRootNoteItems() {
         List<NoteItemVO> noteItems = noteService.getMyRootNoteItems();
-        return new ResponseEntity(noteItems, HttpStatus.OK);
+
+        return ResponseEntity.ok(noteItems);
     }
 
     @GetMapping("/note/{folderId:[0-9]+}")
@@ -45,7 +46,8 @@ public class NoteController {
             @ApiResponse(code=403, message="조회 권한 없음")})
     public ResponseEntity getNoteItems(@PathVariable Integer folderId) {
         List<NoteItemVO> noteItems = noteService.getNoteItems(folderId);
-        return new ResponseEntity(noteItems, HttpStatus.OK);
+
+        return ResponseEntity.ok(noteItems);
     }
 
     @GetMapping("/note/search/{keyword}")
@@ -55,6 +57,7 @@ public class NoteController {
             @ApiResponse(code=403, message="조회 권한 없음")})
     public ResponseEntity searchNotes(@PathVariable String keyword) {
         List<NoteFileVO> noteFiles = noteService.searchNotes(keyword);
-        return new ResponseEntity(noteFiles, HttpStatus.OK);
+
+        return ResponseEntity.ok(noteFiles);
     }
 }

@@ -40,6 +40,7 @@ public class UserController {
             @ApiResponse(code=200, message="조회 성공")})
     public ResponseEntity getUserTypes() {
         List<UserTypeVO> userTypes = userService.getUserTypes();
+
         return ResponseEntity.ok(userTypes);
     }
 
@@ -69,7 +70,8 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateMyInfo(@ModelAttribute UserVO user) {
         userService.updateMyInfo(user);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @DeleteMapping("/user")
@@ -82,6 +84,7 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity deleteMyAccount() {
         userService.deleteMe();
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
