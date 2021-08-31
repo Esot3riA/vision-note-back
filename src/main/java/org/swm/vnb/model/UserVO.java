@@ -39,6 +39,7 @@ public class UserVO implements UserDetails {
 
     @ApiModelProperty(hidden = true)
     private String createdAt;
+
     @ApiModelProperty(hidden = true)
     private String updatedAt;
 

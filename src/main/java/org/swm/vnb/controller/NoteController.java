@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.swm.vnb.model.NoteFileVO;
+import org.swm.vnb.model.NoteFolderVO;
 import org.swm.vnb.model.NoteItemVO;
 import org.swm.vnb.service.NoteService;
 
@@ -28,19 +29,17 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping("/rootnote")
+    @GetMapping("/note/folder/root")
     @ApiOperation(value="루트 폴더 조회", notes="현재 로그인 된 유저의 루트 폴더에 있는 노트 파일 및 폴더를 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity getRootNoteItems() {
-        List<NoteItemVO> noteItems = noteService.getMyRootNoteItems();
-
-        return ResponseEntity.ok(noteItems);
+        return ResponseEntity.ok(noteService.getMyRootNoteInfo());
     }
 
-    @GetMapping("/note/{folderId:[0-9]+}")
+    @GetMapping("/note/folder/{folderId:[0-9]+}")
     @ApiOperation(value="폴더 조회", notes="요청한 폴더 하위의 노트 파일 및 폴더들을 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
@@ -62,5 +61,29 @@ public class NoteController {
         List<HashMap<String, Object>> noteFiles = noteService.searchNotes(keyword);
 
         return ResponseEntity.ok(noteFiles);
+    }
+
+    @PostMapping("/note/file")
+    @ApiOperation(value="노트 생성", notes="새로운 노트 파일을 생성한다.")
+    @ApiResponses({
+            @ApiResponse(code=201, message="생성 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity createNoteFile(@ModelAttribute NoteFileVO noteFile) {
+        noteService.createNoteFile(noteFile);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+    }
+
+    @PostMapping("/note/folder")
+    @ApiOperation(value="폴더 생성", notes="새로운 노트 폴더를 생성한다.")
+    @ApiResponses({
+            @ApiResponse(code=201, message="생성 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity createNoteFolder(@ModelAttribute NoteFolderVO noteFolder) {
+        noteService.createNoteFolder(noteFolder);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 }

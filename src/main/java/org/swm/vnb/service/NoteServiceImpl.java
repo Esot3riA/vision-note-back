@@ -58,11 +58,17 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteItemVO> getMyRootNoteItems() {
+    public Map<String, Object> getMyRootNoteInfo() {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
-        Integer rootFolderId = noteDAO.getRootFolderId(currentUserId);
 
-        return getNoteItems(rootFolderId, currentUserId);
+        Integer rootFolderId = noteDAO.getRootFolderId(currentUserId);
+        List<NoteItemVO> noteItems = getNoteItems(rootFolderId, currentUserId);
+
+        Map<String, Object> rootNoteInfo = new HashMap<>();
+        rootNoteInfo.put("rootFolderId", rootFolderId);
+        rootNoteInfo.put("items", noteItems);
+
+        return rootNoteInfo;
     }
 
     @Override
@@ -74,5 +80,21 @@ public class NoteServiceImpl implements NoteService {
         params.put("keyword", keyword);
 
         return noteDAO.searchNotes(params);
+    }
+
+    @Override
+    public void createNoteFile(NoteFileVO noteFile) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        noteFile.setUserId(currentUserId);
+
+        noteDAO.createNoteFile(noteFile);
+    }
+
+    @Override
+    public void createNoteFolder(NoteFolderVO noteFolder) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        noteFolder.setUserId(currentUserId);
+
+        noteDAO.createNoteFolder(noteFolder);
     }
 }
