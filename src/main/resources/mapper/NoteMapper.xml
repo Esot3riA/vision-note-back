@@ -43,6 +43,28 @@
             (#{userId}, #{folderId}, #{categoryId}, #{fileName}, #{isImportant})
     </insert>
 
+    <update id="updateNoteFile" parameterType="NoteFileVO">
+        UPDATE note_file
+        SET folder_id = #{folderId},
+            file_name = #{fileName},
+            is_important = #{isImportant}
+        WHERE
+            file_id = #{fileId}
+            AND user_id = #{userId}
+    </update>
+
+    <delete id="deleteNoteFile" parameterType="HashMap">
+        DELETE FROM note_file
+        WHERE
+            file_id = #{fileId}
+            AND user_id = #{userId}
+    </delete>
+
+    <delete id="deleteNoteFilesByUserId" parameterType="int">
+        DELETE FROM note_file
+        WHERE user_id = #{userId}
+    </delete>
+
     <insert id="createNoteFolder" parameterType="NoteFolderVO" useGeneratedKeys="true" keyProperty="folderId">
         INSERT INTO note_folder
             (user_id, parent_folder_id, folder_name)
@@ -50,9 +72,20 @@
             (#{userId}, #{parentFolderId}, #{folderName})
     </insert>
 
-    <delete id="deleteNoteFilesByUserId" parameterType="int">
-        DELETE FROM note_file
-        WHERE user_id = #{userId}
+    <update id="updateNoteFolder" parameterType="NoteFolderVO">
+        UPDATE note_folder
+        SET parent_folder_id = #{parentFolderId},
+            folder_name = #{folderName}
+        WHERE
+            folder_id = #{folderId}
+            AND user_id = #{userId}
+    </update>
+
+    <delete id="deleteNoteFolder" parameterType="HashMap">
+        DELETE FROM note_folder
+        WHERE
+            folder_id = #{folderId}
+            AND user_id = #{userId}
     </delete>
 
     <delete id="deleteNoteFoldersByUserId" parameterType="int">

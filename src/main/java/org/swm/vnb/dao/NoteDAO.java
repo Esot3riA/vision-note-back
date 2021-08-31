@@ -20,8 +20,12 @@ public interface NoteDAO {
     List<HashMap<String, Object>> searchNotes(Map<String, String> params);
 
     void createNoteFile(NoteFileVO noteFile);
-    void createNoteFolder(NoteFolderVO noteFolder);
-
+    void updateNoteFile(NoteFileVO noteFile);
+    void deleteNoteFile(Map<String, Object> params);
     void deleteNoteFilesByUserId(Integer userId);
+
+    void createNoteFolder(NoteFolderVO noteFolder);
+    void updateNoteFolder(NoteFolderVO noteFolder);
+    void deleteNoteFolder(Map<String, Object> params);
     void deleteNoteFoldersByUserId(Integer userId);
 }

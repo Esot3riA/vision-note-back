@@ -75,6 +75,31 @@ public class NoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
+    @PutMapping("/note/file/{fileId:[0-9]+}")
+    @ApiOperation(value="노트 수정", notes="노트 정보를 수정한다. 기존 노트 정보가 파라미터로 모두 대체된다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity updateNoteFile(@PathVariable Integer fileId, @ModelAttribute NoteFileVO noteFile) {
+        noteService.updateNoteFile(fileId, noteFile);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @DeleteMapping("/note/file/{fileId:[0-9]+}")
+    @ApiOperation(value="노트 삭제", notes="노트를 삭제한다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @ResponseStatus(value=HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity deleteNoteFile(@PathVariable Integer fileId) {
+        noteService.deleteNoteFile(fileId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
     @PostMapping("/note/folder")
     @ApiOperation(value="폴더 생성", notes="새로운 노트 폴더를 생성한다.")
     @ApiResponses({
@@ -85,5 +110,30 @@ public class NoteController {
         noteService.createNoteFolder(noteFolder);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
+    }
+
+    @PutMapping("/note/folder/{folderId:[0-9]+}")
+    @ApiOperation(value="폴더 수정", notes="노트 폴더 정보를 수정한다. 기존 노트 폴더 정보가 파라미터로 모두 대체된다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity updateNoteFolder(@PathVariable Integer folderId, @ModelAttribute NoteFolderVO noteFolder) {
+        noteService.updateNoteFolder(folderId, noteFolder);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @DeleteMapping("/note/folder/{folderId:[0-9]+}")
+    @ApiOperation(value="폴더 삭제", notes="노트 폴더를 삭제한다. 하위에 있는 모든 노트가 삭제된다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @ResponseStatus(value=HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity deleteNoteFolder(@PathVariable Integer folderId) {
+        noteService.deleteNoteFolder(folderId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }

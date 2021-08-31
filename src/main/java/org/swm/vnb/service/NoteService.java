@@ -15,5 +15,10 @@ public interface NoteService {
     List<HashMap<String, Object>> searchNotes(String keyword);
 
     void createNoteFile(NoteFileVO noteFile);
+    void updateNoteFile(Integer fileId, NoteFileVO noteFile);
+    void deleteNoteFile(Integer fileId);
+
     void createNoteFolder(NoteFolderVO noteFolder);
+    void updateNoteFolder(Integer folderId, NoteFolderVO noteFolder);
+    void deleteNoteFolder(Integer folderId);
 }

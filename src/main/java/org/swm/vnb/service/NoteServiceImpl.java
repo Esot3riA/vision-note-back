@@ -91,10 +91,50 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    public void updateNoteFile(Integer fileId, NoteFileVO noteFile) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        noteFile.setUserId(currentUserId);
+        noteFile.setFileId(fileId);
+
+        noteDAO.updateNoteFile(noteFile);
+    }
+
+    @Override
+    public void deleteNoteFile(Integer fileId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("noteId", fileId);
+
+        noteDAO.deleteNoteFile(params);
+    }
+
+    @Override
     public void createNoteFolder(NoteFolderVO noteFolder) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
         noteFolder.setUserId(currentUserId);
 
         noteDAO.createNoteFolder(noteFolder);
+    }
+
+    @Override
+    public void updateNoteFolder(Integer folderId, NoteFolderVO noteFolder) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        noteFolder.setUserId(currentUserId);
+        noteFolder.setFolderId(folderId);
+
+        noteDAO.updateNoteFolder(noteFolder);
+    }
+
+    @Override
+    public void deleteNoteFolder(Integer folderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("folderId", folderId);
+
+        noteDAO.deleteNoteFolder(params);
     }
 }
