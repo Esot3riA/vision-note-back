@@ -21,7 +21,7 @@
         FROM user_type
     </select>
 
-    <insert id="createUser" parameterType="UserVO">
+    <insert id="createUser" parameterType="UserVO" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user
             (type_id, email, password, authority, nickname, avatar, social_type)
         VALUES

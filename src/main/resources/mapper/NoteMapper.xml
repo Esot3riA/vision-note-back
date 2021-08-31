@@ -35,4 +35,19 @@
             AND sp.paragraph_content LIKE CONCAT('%', #{keyword}, '%')
         GROUP BY s.script_id
     </select>
+
+    <insert id="createNoteFile" parameterType="NoteFileVO" useGeneratedKeys="true" keyProperty="fileId">
+        INSERT INTO note_file
+            (user_id, folder_id, category_id, file_name, is_important)
+        VALUES
+            (#{userId}, #{folderId}, #{categoryId}, #{fileName}, #{isImportant})
+    </insert>
+
+    <insert id="createNoteFolder" parameterType="NoteFolderVO" useGeneratedKeys="true" keyProperty="folderId">
+        INSERT INTO note_folder
+            (user_id, parent_folder_id, folder_name)
+        VALUES
+            (#{userId}, #{parentFolderId}, #{folderName})
+    </insert>
+
 </mapper>

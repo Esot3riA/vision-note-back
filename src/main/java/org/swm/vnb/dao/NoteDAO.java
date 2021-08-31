@@ -12,8 +12,10 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface NoteDAO {
-    List<NoteFileVO> getNoteFiles(Map<String, String> parentNoteParams);
-    List<NoteFolderVO> getNoteFolders(Map<String, String> parentNoteParams);
+    List<NoteFileVO> getNoteFiles(Map<String, String> params);
+    List<NoteFolderVO> getNoteFolders(Map<String, String> params);
     Integer getRootFolderId(Integer userId);
     List<HashMap<String, Object>> searchNotes(Map<String, String> params);
+    void createNoteFile(NoteFileVO noteFile);
+    void createNoteFolder(NoteFolderVO noteFolder);
 }
