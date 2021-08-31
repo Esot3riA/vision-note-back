@@ -13,5 +13,5 @@ public interface UserService {
     List<UserTypeVO> getUserTypes();
     void createUser(UserVO user);
     void updateMyInfo(UserVO user);
-    void deleteMe();
+    void deleteMyAccount();
 }

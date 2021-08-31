@@ -81,7 +81,7 @@ public class UserController {
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity deleteMyAccount() {
-        userService.deleteMe();
+        userService.deleteMyAccount();
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

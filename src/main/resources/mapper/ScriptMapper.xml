@@ -7,6 +7,7 @@
         WHERE script_id = #{scriptId}
             AND user_id = #{userId}
     </select>
+
     <select id="getScriptParagraphs" parameterType="HashMap" resultType="ScriptParagraphVO">
         SELECT sp.paragraph_id, sp.script_id, sp.paragraph_sequence, sp.start_time, sp.end_time,
             sp.paragraph_content, sp.memo_content, sp.is_bookmarked, sp.created_at
@@ -15,4 +16,19 @@
         WHERE sp.script_id = #{scriptId}
             AND s.user_id = #{userId}
     </select>
+
+    <delete id="deleteScriptsByUserId" parameterType="int">
+        DELETE FROM script
+        WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteKeywordsByUserId" parameterType="int">
+        DELETE FROM script_keyword
+        WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteParagraphsByUserId" parameterType="int">
+        DELETE FROM script_paragraph
+        WHERE user_id = #{userId}
+    </delete>
 </mapper>

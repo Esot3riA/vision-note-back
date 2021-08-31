@@ -50,4 +50,14 @@
             (#{userId}, #{parentFolderId}, #{folderName})
     </insert>
 
+    <delete id="deleteNoteFilesByUserId" parameterType="int">
+        DELETE FROM note_file
+        WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteNoteFoldersByUserId" parameterType="int">
+        DELETE FROM note_folder
+        WHERE user_id = #{userId}
+    </delete>
+
 </mapper>

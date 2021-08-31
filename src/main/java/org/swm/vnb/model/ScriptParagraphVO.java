@@ -6,6 +6,7 @@ import lombok.Data;
 public class ScriptParagraphVO {
     private Integer paragraphId;
     private Integer scriptId;
+    private Integer userId;
     private Integer paragraphSequence;
     private String startTime;
     private String endTime;

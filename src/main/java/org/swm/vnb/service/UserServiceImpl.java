@@ -1,11 +1,11 @@
 package org.swm.vnb.service;
 
-import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.swm.vnb.dao.NoteDAO;
+import org.swm.vnb.dao.ScriptDAO;
 import org.swm.vnb.dao.UserDAO;
 import org.swm.vnb.model.NoteFolderVO;
 import org.swm.vnb.model.UserTypeVO;
@@ -18,12 +18,14 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
     private final NoteDAO noteDAO;
+    private final ScriptDAO scriptDAO;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, NoteDAO noteDAO, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO, NoteDAO noteDAO, ScriptDAO scriptDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.noteDAO = noteDAO;
+        this.scriptDAO = scriptDAO;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -83,8 +85,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteMe() {
-        userDAO.deleteUser(SecurityUtil.getCurrentUserId());
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteMyAccount() {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        scriptDAO.deleteKeywordsByUserId(currentUserId);
+        scriptDAO.deleteParagraphsByUserId(currentUserId);
+        scriptDAO.deleteScriptsByUserId(currentUserId);
+
+        noteDAO.deleteNoteFilesByUserId(currentUserId);
+        noteDAO.deleteNoteFoldersByUserId(currentUserId);
+
+        userDAO.deleteUser(currentUserId);
     }
 
 }
