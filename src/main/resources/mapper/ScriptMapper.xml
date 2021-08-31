@@ -4,7 +4,8 @@
     <select id="getScript" parameterType="HashMap" resultType="ScriptVO">
         SELECT script_id, title, is_recording, audio_file, video_file, created_at
         FROM script
-        WHERE script_id = #{scriptId}
+        WHERE
+            file_id = #{fileId}
             AND user_id = #{userId}
     </select>
 
@@ -13,9 +14,38 @@
             sp.paragraph_content, sp.memo_content, sp.is_bookmarked, sp.created_at
         FROM script_paragraph sp
         INNER JOIN script s ON sp.script_id = s.script_id
-        WHERE sp.script_id = #{scriptId}
+        WHERE
+            s.file_id = #{fileId}
             AND s.user_id = #{userId}
     </select>
+
+    <insert id="createParagraph" parameterType="ScriptParagraphVO" useGeneratedKeys="true" keyProperty="paragraphId">
+        INSERT INTO script_paragraph
+            (script_id, user_id, paragraph_sequence, start_time,
+            end_time, paragraph_content, memo_content, is_bookmarked)
+        VALUES
+            (#{scriptId}, #{userId}, #{paragarphSequence}, #{startTime},
+            #{endTime}, #{paragraphContent}, #{memoContent}, #{isBookmarked})
+    </insert>
+
+    <update id="updateParagraph" parameterType="ScriptParagraphVO">
+        UPDATE script_paragraph
+        SET start_time = #{startTime},
+            end_time = #{endTime},
+            paragraph_content = #{paragraphContent},
+            memo_content = #{memoContent},
+            is_bookmarked = #{isBookmarked}
+        WHERE
+            paragraph_id = #{paragraphId}
+            AND user_id = #{userId}
+    </update>
+
+    <delete id="deleteParagraph" parameterType="HashMap">
+        DELETE FROM script_paragraph
+        WHERE
+            paragraph_id = #{paragraphId}
+            AND user_id = #{userId}
+    </delete>
 
     <delete id="deleteScriptsByUserId" parameterType="int">
         DELETE FROM script
