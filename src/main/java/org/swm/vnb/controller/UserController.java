@@ -47,7 +47,7 @@ public class UserController {
     @PostMapping(value="/user")
     @ApiOperation(value="유저 등록", notes="새로운 유저를 등록한다. 인증 없이 호출할 수 있다.")
     @ApiResponses({
-            @ApiResponse(code=200, message="등록 성공"),
+            @ApiResponse(code=201, message="등록 성공"),
             @ApiResponse(code=400, message="제출된 데이터 부족"),
             @ApiResponse(code=409, message="이메일 중복")})
     public ResponseEntity createUser(@ModelAttribute UserVO user) {
