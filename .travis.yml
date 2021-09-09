@@ -1,17 +1,16 @@
 language: java
 jdk: openjdk11
-
 branches:
   only:
-    - master
-
+  - master
 cache:
   directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.gradle'
+  - "$HOME/.m2/repository"
+  - "$HOME/.gradle"
 script: "./gradlew clean build"
-
 notifications:
   email:
     recipients:
-      - esot3ria@gmail.com
+    - esot3ria@gmail.com
+dd:
+  secure: LSekuAE/cU5GKkcUI7uOq2UCvrg4ByeMf49SPPphFbbVQ6I57Ut4iS81+c318oi67hAoVrxzaivijYy3Pkeb+IFS7IMd5ZY59HdgaTwO4suZU2bgi6z8PQ1rUwzBqhe0ZjD6R++f4PnlYNKgDros6l2ToNvmpz2U6xDjSC/sS9tsVCQ7LHJyLcEs6z9Hrt2PLq4eERk92jKWUTTmVHzCXGD8RwZVUf2ojhLgAnmhXQl65oWWAdNtL7QUfpwD6sNFS5BVA0E1GVkya6ztO9GGQ/0a2s1NSEIgQEfOadWDnZgEQBc27v8SkJKBdgyZb3yx6fQNhyRe2lC/ueSSoCVimP4zKzQPoFdOfGfZ7LpX1bAmqB3hGymcO5cqIOBVGTtEOjjpCOTkzTEoq3XPKnNSA5o7YpMEmgq5y+0wOjqwvCs3DLBJjuqn9YscMp/3oXqvZAlBivycJ0xbyux7pDUi0zKBc3cnIBvBs/zuLRIjdcZKlM3DUpI/detm5zCtthvFw9fPbfrSyZx5oSRepvitZpkeJEJIJTbqHmVDgcw5gNoEfSUqVFFJZTRB7t9LEH1r6H8xoH31tTDz2158+pGeovis2a6tK5svvbzAXGgOLdxmTo151fny8wYMPHXf0IEWCl2A1G95Uxk1JDUNcfrEHMVVJGPhYJrOnYIoREXI5bA=
