@@ -10,7 +10,7 @@ public class EncryptTest {
 
     PooledPBEStringEncryptor encryptor;
 
-    private String encryptKey = System.getProperty("JASYPT_ENCRYPTOR_PASSWORD");
+    private String encryptKey = System.getenv("JASYPT_ENCRYPTOR_PASSWORD");
 
     @BeforeEach
     public void InitEncryptor() {
@@ -32,6 +32,7 @@ public class EncryptTest {
     @Test
     public void EncryptAndDecryptTest() {
         String plainText = "plainText";
+        System.out.println(System.getenv().entrySet());
 
         String encryptedText = encryptor.encrypt(plainText);
         System.out.println("Encrypted Text : \n" + encryptedText);

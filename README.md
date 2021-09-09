@@ -21,3 +21,6 @@ LGTM 팀 비전노트 서비스 RESTful API 서버
 ![structure](./img/structure.png)
 
 ![swaggerui](./img/swaggerui.png)
+
+## Caution
+* 실행 시 OS 환경변수에 적절한 JASYPT_ENCRYPTOR_PASSWORD 지정해 줄 것

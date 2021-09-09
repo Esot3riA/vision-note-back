@@ -41,4 +41,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    environment "JASYPT_ENCRYPTOR_PASSWORD", "test_password"
 }
