@@ -1,4 +1,3 @@
-# project > scripts > deploy.sh
 #!/bin/bash
 
 REPOSITORY=/home/ubuntu/apps
