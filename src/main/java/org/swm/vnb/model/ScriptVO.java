@@ -14,8 +14,11 @@ public class ScriptVO {
     @ApiModelProperty(hidden = true)
     private Integer userId;
 
-    @ApiModelProperty(required = true, example = "1")
+    @ApiModelProperty(required = true, example = "0")
     private Integer categoryId;
+
+    @ApiModelProperty(hidden = true)
+    private String categoryName;
 
     @ApiModelProperty(required = true, example = "Test title")
     private String fileName;
@@ -32,7 +35,4 @@ public class ScriptVO {
 
     @ApiModelProperty(hidden = true)
     private String updatedAt;
-
-//    @ApiModelProperty(hidden = true)
-//    private List<ScriptParagraphVO> scriptParagraphs;
 }

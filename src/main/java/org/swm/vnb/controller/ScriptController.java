@@ -1,5 +1,6 @@
 package org.swm.vnb.controller;
 
+import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -47,7 +48,12 @@ public class ScriptController {
     public ResponseEntity createScript(@ModelAttribute ScriptVO script) {
         scriptService.createScriptAndFile(script);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(script);
+        JsonObject responseObj = new JsonObject();
+        responseObj.addProperty("scriptId", script.getScriptId());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseObj.toString());
     }
 
     @PostMapping("/script/paragraph/{scriptId:[0-9]+}")
