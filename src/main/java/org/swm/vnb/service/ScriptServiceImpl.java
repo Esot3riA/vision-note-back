@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.swm.vnb.dao.NoteDAO;
 import org.swm.vnb.dao.ScriptDAO;
+import org.swm.vnb.model.FullScriptVO;
 import org.swm.vnb.model.NoteFileVO;
 import org.swm.vnb.model.ScriptParagraphVO;
 import org.swm.vnb.model.ScriptVO;
@@ -25,7 +26,7 @@ public class ScriptServiceImpl implements ScriptService {
     }
 
     @Override
-    public ScriptVO getMyScript(Integer scriptId) {
+    public FullScriptVO getFullScript(Integer scriptId) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
         Map<String, String> params = new HashMap<>();
@@ -33,10 +34,14 @@ public class ScriptServiceImpl implements ScriptService {
         params.put("userId", currentUserId.toString());
 
         ScriptVO script = scriptDAO.getScript(params);
-//        if (script != null) {
-//            script.setScriptParagraphs(scriptDAO.getScriptParagraphs(params));
-//        }
-        return script;
+
+        FullScriptVO fullScript = new FullScriptVO();
+        fullScript.setScript(script);
+        if (script != null) {
+            fullScript.setScriptParagraphs(scriptDAO.getScriptParagraphs(params));
+        }
+
+        return fullScript;
     }
 
     @Override

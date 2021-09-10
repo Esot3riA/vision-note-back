@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.swm.vnb.model.FullScriptVO;
 import org.swm.vnb.model.ScriptParagraphVO;
 import org.swm.vnb.model.ScriptVO;
 import org.swm.vnb.service.ScriptService;
@@ -26,15 +27,15 @@ public class ScriptController {
     }
 
     @GetMapping("/script/{scriptId:[0-9]+}")
-    @ApiOperation(value="스크립트 조회", notes="주어진 file ID를 가진 스크립트의 정보와 문단들을 조회한다.")
+    @ApiOperation(value="스크립트 조회", notes="주어진 script ID를 가진 스크립트의 정보와 문단들을 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity getScript(@PathVariable Integer scriptId) {
-        ScriptVO script = scriptService.getMyScript(scriptId);
+        FullScriptVO fullScript = scriptService.getFullScript(scriptId);
 
-        return ResponseEntity.ok(script);
+        return ResponseEntity.ok(fullScript);
     }
 
     @PostMapping("/script")

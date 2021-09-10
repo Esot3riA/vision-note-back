@@ -2,11 +2,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.swm.vnb.dao.ScriptDAO">
     <select id="getScript" parameterType="HashMap" resultType="ScriptVO">
-        SELECT script_id, title, is_recording, audio_file, video_file, created_at
-        FROM script
+        SELECT s.script_id, nf.file_name, s.is_recording, s.audio_file, s.video_file, s.created_at
+        FROM script s
+        INNER JOIN note_file nf ON s.script_id = nf.script_id
         WHERE
-            script_id = #{scriptId}
-            AND user_id = #{userId}
+            s.script_id = #{scriptId}
+            AND s.user_id = #{userId}
     </select>
 
     <insert id="createScript" parameterType="ScriptVO" useGeneratedKeys="true" keyProperty="scriptId">
