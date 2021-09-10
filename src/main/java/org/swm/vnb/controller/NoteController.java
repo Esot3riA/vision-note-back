@@ -63,18 +63,6 @@ public class NoteController {
         return ResponseEntity.ok(noteFiles);
     }
 
-    @PostMapping("/note/file")
-    @ApiOperation(value="노트 생성", notes="새로운 노트 파일을 생성한다.")
-    @ApiResponses({
-            @ApiResponse(code=201, message="생성 성공"),
-            @ApiResponse(code=401, message="로그인되지 않음")})
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity createNoteFile(@ModelAttribute NoteFileVO noteFile) {
-        noteService.createNoteFile(noteFile);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
-    }
-
     @PutMapping("/note/file/{fileId:[0-9]+}")
     @ApiOperation(value="노트 수정", notes="노트 정보를 수정한다. 기존 노트 정보가 파라미터로 모두 대체된다.")
     @ApiResponses({

@@ -5,9 +5,16 @@
         SELECT script_id, title, is_recording, audio_file, video_file, created_at
         FROM script
         WHERE
-            file_id = #{fileId}
+            script_id = #{scriptId}
             AND user_id = #{userId}
     </select>
+
+    <insert id="createScript" parameterType="ScriptVO" useGeneratedKeys="true" keyProperty="scriptId">
+        INSERT INTO script
+            (user_id, category_id, is_recording, audio_file, video_file)
+        VALUES
+            (#{userId}, #{categoryId}, #{isRecording}, #{audioFile}, #{videoFile})
+    </insert>
 
     <select id="getScriptParagraphs" parameterType="HashMap" resultType="ScriptParagraphVO">
         SELECT sp.paragraph_id, sp.script_id, sp.paragraph_sequence, sp.start_time, sp.end_time,
@@ -15,7 +22,7 @@
         FROM script_paragraph sp
         INNER JOIN script s ON sp.script_id = s.script_id
         WHERE
-            s.file_id = #{fileId}
+            s.script_id = #{scriptId}
             AND s.user_id = #{userId}
     </select>
 

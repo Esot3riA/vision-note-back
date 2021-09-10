@@ -38,9 +38,9 @@
 
     <insert id="createNoteFile" parameterType="NoteFileVO" useGeneratedKeys="true" keyProperty="fileId">
         INSERT INTO note_file
-            (user_id, folder_id, category_id, file_name, is_important)
+            (user_id, folder_id, script_id, category_id, file_name, is_important)
         VALUES
-            (#{userId}, #{folderId}, #{categoryId}, #{fileName}, #{isImportant})
+            (#{userId}, #{folderId}, #{scriptId}, #{categoryId}, #{fileName}, #{isImportant})
     </insert>
 
     <update id="updateNoteFile" parameterType="NoteFileVO">

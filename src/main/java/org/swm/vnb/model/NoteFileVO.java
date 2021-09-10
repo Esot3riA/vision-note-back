@@ -15,6 +15,9 @@ public class NoteFileVO {
     @ApiModelProperty(required = true, example = "1")
     private Integer folderId;
 
+    @ApiModelProperty(hidden = true)
+    private Integer scriptId;
+
     @ApiModelProperty(required = true, example = "1")
     private Integer categoryId;
 

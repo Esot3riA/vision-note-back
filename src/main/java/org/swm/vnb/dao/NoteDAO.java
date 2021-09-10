@@ -12,7 +12,6 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface NoteDAO {
-
     List<NoteFileVO> getNoteFiles(Map<String, String> params);
     List<NoteFolderVO> getNoteFolders(Map<String, String> params);
     Integer getRootFolderId(Integer userId);

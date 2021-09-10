@@ -11,10 +11,10 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface ScriptDAO {
-
     ScriptVO getScript(Map<String, String> params);
+    void createScript(ScriptVO script);
+    
     List<ScriptParagraphVO> getScriptParagraphs(Map<String, String> params);
-
     void createParagraph(ScriptParagraphVO paragraph);
     void updateParagraph(ScriptParagraphVO paragraph);
     void deleteParagraph(Map<String, String> params);

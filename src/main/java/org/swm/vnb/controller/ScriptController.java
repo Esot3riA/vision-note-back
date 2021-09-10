@@ -25,15 +25,28 @@ public class ScriptController {
         this.scriptService = scriptService;
     }
 
-    @GetMapping("/script/{fileId:[0-9]+}")
+    @GetMapping("/script/{scriptId:[0-9]+}")
     @ApiOperation(value="스크립트 조회", notes="주어진 file ID를 가진 스크립트의 정보와 문단들을 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity getScript(@PathVariable Integer fileId) {
-        ScriptVO script = scriptService.getMyScript(fileId);
+    public ResponseEntity getScript(@PathVariable Integer scriptId) {
+        ScriptVO script = scriptService.getMyScript(scriptId);
+
         return ResponseEntity.ok(script);
+    }
+
+    @PostMapping("/script")
+    @ApiOperation(value="스크립트 생성", notes="새로운 학습 스크립트를 생성한다.")
+    @ApiResponses({
+            @ApiResponse(code=201, message="생성 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity createScript(@ModelAttribute ScriptVO script) {
+        scriptService.createScriptAndFile(script);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(script);
     }
 
     @PostMapping("/script/paragraph/{scriptId:[0-9]+}")
@@ -44,6 +57,7 @@ public class ScriptController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity createParagraph(@PathVariable Integer scriptId, @ModelAttribute ScriptParagraphVO paragraph) {
         scriptService.createParagraph(scriptId, paragraph);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(paragraph.getParagraphId());
     }
 
@@ -55,6 +69,7 @@ public class ScriptController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateParagraph(@PathVariable Integer paragraphId, @ModelAttribute ScriptParagraphVO paragraph) {
         scriptService.updateParagraph(paragraphId, paragraph);
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
@@ -66,6 +81,7 @@ public class ScriptController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity deleteParagraph(@PathVariable Integer paragraphId) {
         scriptService.deleteParagraph(paragraphId);
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
