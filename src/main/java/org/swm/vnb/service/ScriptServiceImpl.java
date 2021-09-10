@@ -78,7 +78,7 @@ public class ScriptServiceImpl implements ScriptService {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
         paragraph.setUserId(currentUserId);
-        paragraph.setParagraphId(currentUserId);
+        paragraph.setParagraphId(paragraphId);
 
         scriptDAO.updateParagraph(paragraph);
     }
