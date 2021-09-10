@@ -32,7 +32,7 @@
             (script_id, user_id, paragraph_sequence, start_time,
             end_time, paragraph_content, memo_content, is_bookmarked)
         VALUES
-            (#{scriptId}, #{userId}, #{paragarphSequence}, #{startTime},
+            (#{scriptId}, #{userId}, #{paragraphSequence}, #{startTime},
             #{endTime}, #{paragraphContent}, #{memoContent}, #{isBookmarked})
     </insert>
 

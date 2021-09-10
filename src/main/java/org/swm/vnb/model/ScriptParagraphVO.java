@@ -27,10 +27,10 @@ public class ScriptParagraphVO {
     @ApiModelProperty(required = true)
     private String paragraphContent;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = false)
     private String memoContent;
 
-    @ApiModelProperty(required = true, example = "0")
+    @ApiModelProperty(required = false, example = "0")
     private Integer isBookmarked;
 
     @ApiModelProperty(hidden = true)
