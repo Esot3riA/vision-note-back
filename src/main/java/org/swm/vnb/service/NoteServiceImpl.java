@@ -2,7 +2,9 @@ package org.swm.vnb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.swm.vnb.dao.NoteDAO;
+import org.swm.vnb.dao.ScriptDAO;
 import org.swm.vnb.model.NoteFileVO;
 import org.swm.vnb.model.NoteFolderVO;
 import org.swm.vnb.model.NoteItemVO;
@@ -17,10 +19,12 @@ import java.util.Map;
 @Service
 public class NoteServiceImpl implements NoteService {
     private final NoteDAO noteDAO;
+    private final ScriptDAO scriptDAO;
 
     @Autowired
-    public NoteServiceImpl(NoteDAO noteDAO) {
+    public NoteServiceImpl(NoteDAO noteDAO, ScriptDAO scriptDAO) {
         this.noteDAO = noteDAO;
+        this.scriptDAO = scriptDAO;
     }
 
     @Override
@@ -100,14 +104,22 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void deleteNoteFile(Integer fileId) {
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteNoteFileAndScript(Integer fileId) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
         Map<String, Object> params = new HashMap<>();
         params.put("userId", currentUserId);
-        params.put("noteId", fileId);
+        params.put("fileId", fileId);
+
+        Integer scriptId = noteDAO.getScriptIdByFileId(params);
+        params.put("scriptId", scriptId);
 
         noteDAO.deleteNoteFile(params);
+
+        scriptDAO.deleteParagraphsByScriptId(params);
+        scriptDAO.deleteKeywordsByScriptId(params);
+        scriptDAO.deleteScript(params);
     }
 
     @Override

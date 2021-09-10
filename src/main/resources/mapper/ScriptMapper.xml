@@ -57,16 +57,34 @@
             AND user_id = #{userId}
     </delete>
 
+    <delete id="deleteScript" parameterType="HashMap">
+        DELETE FROM script
+        WHERE
+            script_id = #{scriptId}
+            AND user_id = #{userId}
+    </delete>
     <delete id="deleteScriptsByUserId" parameterType="int">
         DELETE FROM script
         WHERE user_id = #{userId}
     </delete>
 
+    <delete id="deleteKeywordsByScriptId" parameterType="HashMap">
+        DELETE FROM script_keyword
+        WHERE
+            script_id = #{scriptId}
+            AND user_id = #{userId}
+    </delete>
     <delete id="deleteKeywordsByUserId" parameterType="int">
         DELETE FROM script_keyword
         WHERE user_id = #{userId}
     </delete>
 
+    <delete id="deleteParagraphsByScriptId" parameterType="HashMap">
+        DELETE FROM script_paragraph
+        WHERE
+            script_id = #{scriptId}
+            AND user_id = #{userId}
+    </delete>
     <delete id="deleteParagraphsByUserId" parameterType="int">
         DELETE FROM script_paragraph
         WHERE user_id = #{userId}

@@ -21,7 +21,17 @@
     <select id="getRootFolderId" parameterType="int" resultType="int">
         SELECT folder_id
         FROM note_folder
-        WHERE user_id = #{userId} AND parent_folder_id IS NULL
+        WHERE
+            user_id = #{userId}
+            AND parent_folder_id IS NULL
+    </select>
+
+    <select id="getScriptIdByFileId" parameterType="int" resultType="int">
+        SELECT script_id
+        FROM note_file
+        WHERE
+            file_id = #{fileId}
+            AND user_id = #{userId}
     </select>
 
     <select id="searchNotes" parameterType="HashMap" resultType="HashMap">

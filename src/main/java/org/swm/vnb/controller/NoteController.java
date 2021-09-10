@@ -83,7 +83,7 @@ public class NoteController {
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity deleteNoteFile(@PathVariable Integer fileId) {
-        noteService.deleteNoteFile(fileId);
+        noteService.deleteNoteFileAndScript(fileId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

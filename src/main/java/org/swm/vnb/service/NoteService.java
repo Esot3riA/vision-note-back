@@ -16,7 +16,7 @@ public interface NoteService {
 
     void createNoteFile(NoteFileVO noteFile);
     void updateNoteFile(Integer fileId, NoteFileVO noteFile);
-    void deleteNoteFile(Integer fileId);
+    void deleteNoteFileAndScript(Integer fileId);
 
     void createNoteFolder(NoteFolderVO noteFolder);
     void updateNoteFolder(Integer folderId, NoteFolderVO noteFolder);

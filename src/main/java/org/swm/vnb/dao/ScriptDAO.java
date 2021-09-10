@@ -13,13 +13,18 @@ import java.util.Map;
 public interface ScriptDAO {
     ScriptVO getScript(Map<String, String> params);
     void createScript(ScriptVO script);
-    
+
     List<ScriptParagraphVO> getScriptParagraphs(Map<String, String> params);
     void createParagraph(ScriptParagraphVO paragraph);
     void updateParagraph(ScriptParagraphVO paragraph);
     void deleteParagraph(Map<String, String> params);
 
+    void deleteScript(Map<String, Object> params);
     void deleteScriptsByUserId(Integer userId);
+
+    void deleteKeywordsByScriptId(Map<String, Object> params);
     void deleteKeywordsByUserId(Integer userId);
+
+    void deleteParagraphsByScriptId(Map<String, Object> params);
     void deleteParagraphsByUserId(Integer userId);
 }

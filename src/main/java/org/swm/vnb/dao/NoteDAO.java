@@ -15,6 +15,7 @@ public interface NoteDAO {
     List<NoteFileVO> getNoteFiles(Map<String, String> params);
     List<NoteFolderVO> getNoteFolders(Map<String, String> params);
     Integer getRootFolderId(Integer userId);
+    Integer getScriptIdByFileId(Map<String, Object> params);
 
     List<HashMap<String, Object>> searchNotes(Map<String, String> params);
 
