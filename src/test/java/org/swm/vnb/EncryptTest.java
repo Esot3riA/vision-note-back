@@ -5,10 +5,13 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EncryptTest {
 
     PooledPBEStringEncryptor encryptor;
+    private static final Logger logger = LoggerFactory.getLogger(EncryptTest.class);
 
     private String encryptKey = System.getenv("JASYPT_ENCRYPTOR_PASSWORD");
 
@@ -32,10 +35,10 @@ public class EncryptTest {
     @Test
     public void EncryptAndDecryptTest() {
         String plainText = "plainText";
-        System.out.println(System.getenv().entrySet());
 
         String encryptedText = encryptor.encrypt(plainText);
-        System.out.println("Encrypted Text : \n" + encryptedText);
+        logger.info(" Original Text :\t" + plainText);
+        logger.info("Encrypted Text :\t" + encryptedText);
         String decryptedText = encryptor.decrypt(encryptedText);
 
         Assertions.assertEquals(plainText, decryptedText);
