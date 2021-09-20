@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.swm.vnb.dao.NoteDAO;
 import org.swm.vnb.dao.ScriptDAO;
 import org.swm.vnb.dao.UserDAO;
@@ -77,11 +78,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateMyInfo(UserVO user)  {
-        user.setUserId(SecurityUtil.getCurrentUserId());
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
-        userDAO.updateUser(user);
+        if(user != null && !user.isEmpty()) {
+            user.setUserId(SecurityUtil.getCurrentUserId());
+            user.setPassword(encodePassword(user.getPassword()));
+            userDAO.updateUser(user);
+        }
     }
 
     @Override
@@ -97,6 +98,13 @@ public class UserServiceImpl implements UserService {
         noteDAO.deleteNoteFoldersByUserId(currentUserId);
 
         userDAO.deleteUser(currentUserId);
+    }
+
+    private String encodePassword(String password) {
+        if (StringUtils.hasText(password)) {
+            return passwordEncoder.encode(password);
+        }
+        return "";
     }
 
 }

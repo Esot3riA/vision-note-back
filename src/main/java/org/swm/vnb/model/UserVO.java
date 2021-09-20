@@ -16,25 +16,20 @@ public class UserVO implements UserDetails {
     @ApiModelProperty(hidden = true)
     private Integer userId;
 
-    @ApiModelProperty(required = true, example = "1")
+    @ApiModelProperty(example = "1")
     private Integer typeId;
 
-    @ApiModelProperty(required = true)
     private String email;
 
-    @ApiModelProperty(required = true)
     private String password;
 
     @ApiModelProperty(hidden = true)
     private String authority;
 
-    @ApiModelProperty(required = true)
     private String nickname;
 
-    @ApiModelProperty(required = true)
     private String avatar;
 
-    @ApiModelProperty(required = true)
     private String socialType;
 
     @ApiModelProperty(hidden = true)
@@ -79,5 +74,15 @@ public class UserVO implements UserDetails {
     @ApiModelProperty(hidden = true)
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isEmpty() {
+        return userId == null
+                && typeId == null
+                && password == null
+                && authority == null
+                && nickname == null
+                && avatar == null
+                && socialType == null;
     }
 }

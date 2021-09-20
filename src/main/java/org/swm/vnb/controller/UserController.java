@@ -3,12 +3,14 @@ package org.swm.vnb.controller;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.swm.vnb.model.UserTypeVO;
 import org.swm.vnb.model.UserVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.swm.vnb.service.UserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -61,13 +63,20 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    @ApiOperation(value="내 정보 수정", notes="현재 유저의 정보를 수정한다. 기존 유저 정보가 파라미터로 주어진 정보로 모두 대체된다.")
+    @ApiOperation(value="내 정보 수정", notes="현재 유저의 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="typeId", dataType="int", paramType="query", example="1"),
+            @ApiImplicitParam(name="password", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="nickname", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="avatar", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="socialType", dataType="String", paramType="query")
+    })
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity updateMyInfo(@ModelAttribute UserVO user) {
+    public ResponseEntity updateMyInfo(@ApiIgnore @ModelAttribute UserVO user) {
         userService.updateMyInfo(user);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
