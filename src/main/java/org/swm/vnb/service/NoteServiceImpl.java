@@ -152,6 +152,10 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public boolean isValidFolderId(Integer folderId) {
+        if (folderId == null) {
+            return false;
+        }
+
         Integer currentUserId = SecurityUtil.getCurrentUserId();
         Map<String, Object> params = new HashMap<>();
         params.put("userId", currentUserId);
