@@ -30,7 +30,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public List<NoteItemVO> getNoteItems(Integer folderId, Integer userId) {
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("folderId", folderId.toString());
         params.put("userId", userId.toString());
 
@@ -79,7 +79,7 @@ public class NoteServiceImpl implements NoteService {
     public List<HashMap<String, Object>> searchNotes(String keyword) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("userId", currentUserId.toString());
         params.put("keyword", keyword);
 
@@ -148,5 +148,16 @@ public class NoteServiceImpl implements NoteService {
         params.put("folderId", folderId);
 
         noteDAO.deleteNoteFolder(params);
+    }
+
+    @Override
+    public boolean isValidFolderId(Integer folderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("folderId", folderId);
+
+        NoteFolderVO folder = noteDAO.getNoteFolder(params);
+        return folder != null;
     }
 }

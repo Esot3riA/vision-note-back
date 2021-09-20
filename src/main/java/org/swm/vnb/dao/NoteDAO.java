@@ -12,12 +12,13 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface NoteDAO {
-    List<NoteFileVO> getNoteFiles(Map<String, String> params);
-    List<NoteFolderVO> getNoteFolders(Map<String, String> params);
+    List<NoteFileVO> getNoteFiles(Map<String, Object> params);
+    List<NoteFolderVO> getNoteFolders(Map<String, Object> params);
+    NoteFolderVO getNoteFolder(Map<String, Object> params);
     Integer getRootFolderId(Integer userId);
     Integer getScriptIdByFileId(Map<String, Object> params);
 
-    List<HashMap<String, Object>> searchNotes(Map<String, String> params);
+    List<HashMap<String, Object>> searchNotes(Map<String, Object> params);
 
     void createNoteFile(NoteFileVO noteFile);
     void updateNoteFile(NoteFileVO noteFile);

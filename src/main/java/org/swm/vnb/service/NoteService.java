@@ -21,4 +21,6 @@ public interface NoteService {
     void createNoteFolder(NoteFolderVO noteFolder);
     void updateNoteFolder(Integer folderId, NoteFolderVO noteFolder);
     void deleteNoteFolder(Integer folderId);
+
+    boolean isValidFolderId(Integer folderId);
 }

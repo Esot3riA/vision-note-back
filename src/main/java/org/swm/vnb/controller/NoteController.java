@@ -93,14 +93,18 @@ public class NoteController {
     @ApiOperation(value="폴더 생성", notes="새로운 노트 폴더를 생성한다.")
     @ApiResponses({
             @ApiResponse(code=201, message="생성 성공"),
+            @ApiResponse(code=400, message="유효한 부모 폴더가 아님"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity createNoteFolder(@ModelAttribute NoteFolderVO noteFolder) {
+        if (!noteService.isValidFolderId(noteFolder.getParentFolderId())) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
         noteService.createNoteFolder(noteFolder);
 
         JsonObject responseObj = new JsonObject();
         responseObj.addProperty("folderId", noteFolder.getFolderId());
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(responseObj.toString());
