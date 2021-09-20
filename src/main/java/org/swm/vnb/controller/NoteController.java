@@ -1,5 +1,6 @@
 package org.swm.vnb.controller;
 
+import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -97,7 +98,12 @@ public class NoteController {
     public ResponseEntity createNoteFolder(@ModelAttribute NoteFolderVO noteFolder) {
         noteService.createNoteFolder(noteFolder);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        JsonObject responseObj = new JsonObject();
+        responseObj.addProperty("folderId", noteFolder.getFolderId());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseObj.toString());
     }
 
     @PutMapping("/note/folder/{folderId:[0-9]+}")
