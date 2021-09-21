@@ -64,9 +64,11 @@
 
     <update id="updateNoteFile" parameterType="NoteFileVO">
         UPDATE note_file
-        SET folder_id = #{folderId},
-            file_name = #{fileName},
-            is_important = #{isImportant}
+        <set>
+            <if test="folderId != null">folder_id = #{folderId},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="isImportant != null">is_impotant = #{isImportant}</if>
+        </set>
         WHERE
             file_id = #{fileId}
             AND user_id = #{userId}
@@ -93,8 +95,10 @@
 
     <update id="updateNoteFolder" parameterType="NoteFolderVO">
         UPDATE note_folder
-        SET parent_folder_id = #{parentFolderId},
-            folder_name = #{folderName}
+        <set>
+            <if test="parentFolderId != null">parent_folder_id = #{parentFolderId},</if>
+            <if test="folderName != null and folderName != ''">folder_name = #{folderName},</if>
+        </set>
         WHERE
             folder_id = #{folderId}
             AND user_id = #{userId}

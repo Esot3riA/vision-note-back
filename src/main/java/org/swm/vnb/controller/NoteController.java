@@ -1,10 +1,7 @@
 package org.swm.vnb.controller;
 
 import com.google.gson.JsonObject;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +11,7 @@ import org.swm.vnb.model.NoteFileVO;
 import org.swm.vnb.model.NoteFolderVO;
 import org.swm.vnb.model.NoteItemVO;
 import org.swm.vnb.service.NoteService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,12 +63,17 @@ public class NoteController {
     }
 
     @PutMapping("/note/file/{fileId:[0-9]+}")
-    @ApiOperation(value="노트 수정", notes="노트 정보를 수정한다. 기존 노트 정보가 파라미터로 모두 대체된다.")
+    @ApiOperation(value="노트 수정", notes="노트 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="folderId", dataType="int", paramType="query", example="1"),
+            @ApiImplicitParam(name="fileName", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="isImportant", dataType="int", paramType="query", example="0")})
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity updateNoteFile(@PathVariable Integer fileId, @ModelAttribute NoteFileVO noteFile) {
+    public ResponseEntity updateNoteFile(@PathVariable Integer fileId,
+                                         @ApiIgnore @ModelAttribute NoteFileVO noteFile) {
         noteService.updateNoteFile(fileId, noteFile);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -111,12 +114,16 @@ public class NoteController {
     }
 
     @PutMapping("/note/folder/{folderId:[0-9]+}")
-    @ApiOperation(value="폴더 수정", notes="노트 폴더 정보를 수정한다. 기존 노트 폴더 정보가 파라미터로 모두 대체된다.")
+    @ApiOperation(value="폴더 수정", notes="노트 폴더 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="folderName", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="parentFolderId", dataType="int", paramType="query", example="1")})
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity updateNoteFolder(@PathVariable Integer folderId, @ModelAttribute NoteFolderVO noteFolder) {
+    public ResponseEntity updateNoteFolder(@PathVariable Integer folderId,
+                                           @ApiIgnore @ModelAttribute NoteFolderVO noteFolder) {
         noteService.updateNoteFolder(folderId, noteFolder);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

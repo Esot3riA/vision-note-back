@@ -81,13 +81,12 @@ public class UserVO implements UserDetails {
         return true;
     }
 
-    public boolean isEmpty() {
-        return userId == null
-                && typeId == null
-                && password == null
-                && authority == null
-                && nickname == null
-                && avatar == null
-                && socialType == null;
+    public boolean isExistUpdateElements() {
+        return typeId != null
+                || password != null
+                || authority != null
+                || nickname != null
+                || avatar != null
+                || socialType != null;
     }
 }

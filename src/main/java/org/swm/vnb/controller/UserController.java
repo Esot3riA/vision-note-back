@@ -69,8 +69,7 @@ public class UserController {
             @ApiImplicitParam(name="password", dataType="String", paramType="query"),
             @ApiImplicitParam(name="nickname", dataType="String", paramType="query"),
             @ApiImplicitParam(name="avatar", dataType="String", paramType="query"),
-            @ApiImplicitParam(name="socialType", dataType="String", paramType="query")
-    })
+            @ApiImplicitParam(name="socialType", dataType="String", paramType="query")})
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음")})

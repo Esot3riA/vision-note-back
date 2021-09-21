@@ -78,11 +78,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateMyInfo(UserVO user)  {
-        if(user != null && !user.isEmpty()) {
-            user.setUserId(SecurityUtil.getCurrentUserId());
-            user.setPassword(encodePassword(user.getPassword()));
-            userDAO.updateUser(user);
+        if (user == null || !user.isExistUpdateElements()) {
+            return;
         }
+
+        user.setUserId(SecurityUtil.getCurrentUserId());
+        user.setPassword(encodePassword(user.getPassword()));
+        userDAO.updateUser(user);
     }
 
     @Override

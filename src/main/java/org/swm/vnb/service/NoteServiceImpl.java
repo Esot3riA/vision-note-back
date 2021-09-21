@@ -96,10 +96,13 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void updateNoteFile(Integer fileId, NoteFileVO noteFile) {
+        if (fileId == null || noteFile == null || !noteFile.isExistUpdateElements()) {
+            return;
+        }
+
         Integer currentUserId = SecurityUtil.getCurrentUserId();
         noteFile.setUserId(currentUserId);
         noteFile.setFileId(fileId);
-
         noteDAO.updateNoteFile(noteFile);
     }
 
@@ -132,6 +135,10 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void updateNoteFolder(Integer folderId, NoteFolderVO noteFolder) {
+        if (folderId == null || noteFolder == null || !noteFolder.isExistUpdateElements()) {
+            return;
+        }
+
         Integer currentUserId = SecurityUtil.getCurrentUserId();
         noteFolder.setUserId(currentUserId);
         noteFolder.setFolderId(folderId);

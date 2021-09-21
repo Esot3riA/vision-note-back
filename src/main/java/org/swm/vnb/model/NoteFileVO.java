@@ -35,4 +35,10 @@ public class NoteFileVO {
 
     @ApiModelProperty(hidden = true)
     private String updatedAt;
+
+    public boolean isExistUpdateElements() {
+        return folderId != null
+                || fileName != null
+                || isImportant != null;
+    }
 }
