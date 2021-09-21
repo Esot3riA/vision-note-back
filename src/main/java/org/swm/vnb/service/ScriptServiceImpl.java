@@ -75,8 +75,11 @@ public class ScriptServiceImpl implements ScriptService {
 
     @Override
     public void updateParagraph(Integer paragraphId, ScriptParagraphVO paragraph) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        if (paragraphId == null || paragraph == null || !paragraph.isExistUpdateElements()) {
+            return;
+        }
 
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
         paragraph.setUserId(currentUserId);
         paragraph.setParagraphId(paragraphId);
 

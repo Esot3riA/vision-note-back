@@ -38,4 +38,12 @@ public class ScriptParagraphVO {
 
     @ApiModelProperty(hidden = true)
     private String updatedAt;
+
+    public boolean isExistUpdateElements() {
+        return startTime != null
+                || endTime != null
+                || paragraphContent != null
+                || memoContent != null
+                || isBookmarked != null;
+    }
 }

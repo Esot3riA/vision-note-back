@@ -40,11 +40,13 @@
 
     <update id="updateParagraph" parameterType="ScriptParagraphVO">
         UPDATE script_paragraph
-        SET start_time = #{startTime},
-            end_time = #{endTime},
-            paragraph_content = #{paragraphContent},
-            memo_content = #{memoContent},
-            is_bookmarked = #{isBookmarked}
+        <set>
+            <if test="startTime != null and startTime != ''">start_time = #{startTime},</if>
+            <if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
+            <if test="paragraphContent != null and paragraphContent != ''">paragraph_content = #{paragraphContent},</if>
+            <if test="memoContent != null and memoContent != ''">memo_content = #{memoContent},</if>
+            <if test="isBookmarked != null">is_bookmarked = #{isBookmarked}</if>
+        </set>
         WHERE
             paragraph_id = #{paragraphId}
             AND user_id = #{userId}

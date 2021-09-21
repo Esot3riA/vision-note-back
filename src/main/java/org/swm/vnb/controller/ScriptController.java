@@ -1,10 +1,7 @@
 package org.swm.vnb.controller;
 
 import com.google.gson.JsonObject;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +11,7 @@ import org.swm.vnb.model.FullScriptVO;
 import org.swm.vnb.model.ScriptParagraphVO;
 import org.swm.vnb.model.ScriptVO;
 import org.swm.vnb.service.ScriptService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/v1")
@@ -65,16 +63,28 @@ public class ScriptController {
     public ResponseEntity createParagraph(@PathVariable Integer scriptId, @ModelAttribute ScriptParagraphVO paragraph) {
         scriptService.createParagraph(scriptId, paragraph);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(paragraph.getParagraphId());
+        JsonObject responseObj = new JsonObject();
+        responseObj.addProperty("paragraphId", paragraph.getParagraphId());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(responseObj);
     }
 
     @PutMapping("/script/paragraph/{paragraphId:[0-9]+}")
-    @ApiOperation(value="스크립트 문단 수정", notes="주어진 paragraph ID에 해당하는 문단 정보를 수정한다. 기존 노트 정보가 파라미터로 모두 대체된다.")
+    @ApiOperation(value="스크립트 문단 수정", notes="주어진 paragraph ID에 해당하는 문단 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="startTime", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="endTime", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="paragraphContent", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="memoContent", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="isBookmarked", dataType="int", paramType="query", example="0")})
     @ApiResponses({
             @ApiResponse(code=204, message="수정 성공"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity updateParagraph(@PathVariable Integer paragraphId, @ModelAttribute ScriptParagraphVO paragraph) {
+    public ResponseEntity updateParagraph(@PathVariable Integer paragraphId,
+                                          @ApiIgnore @ModelAttribute ScriptParagraphVO paragraph) {
         scriptService.updateParagraph(paragraphId, paragraph);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
