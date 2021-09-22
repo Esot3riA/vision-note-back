@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface NoteService {
-    List<NoteItemVO> getNoteItems(Integer folderId, Integer userId);
-    List<NoteItemVO> getMyNoteItems(Integer folderId);
+    List<NoteItemVO> getNoteItems(Integer folderId);
     Map<String, Object> getMyRootNoteInfo();
     List<HashMap<String, Object>> searchNotes(String keyword);
 

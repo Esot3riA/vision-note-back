@@ -45,7 +45,7 @@ public class NoteController {
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity getNoteItems(@PathVariable Integer folderId) {
-        List<NoteItemVO> noteItems = noteService.getMyNoteItems(folderId);
+        List<NoteItemVO> noteItems = noteService.getNoteItems(folderId);
 
         return ResponseEntity.ok(noteItems);
     }

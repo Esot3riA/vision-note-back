@@ -28,11 +28,12 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteItemVO> getNoteItems(Integer folderId, Integer userId) {
+    public List<NoteItemVO> getNoteItems(Integer folderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
 
         Map<String, Object> params = new HashMap<>();
         params.put("folderId", folderId.toString());
-        params.put("userId", userId.toString());
+        params.put("userId", currentUserId.toString());
 
         List<NoteFileVO> files = noteDAO.getNoteFiles(params);
         List<NoteFolderVO> folders = noteDAO.getNoteFolders(params);
@@ -55,18 +56,11 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteItemVO> getMyNoteItems(Integer folderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        return getNoteItems(folderId, currentUserId);
-    }
-
-    @Override
     public Map<String, Object> getMyRootNoteInfo() {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
         Integer rootFolderId = noteDAO.getRootFolderId(currentUserId);
-        List<NoteItemVO> noteItems = getNoteItems(rootFolderId, currentUserId);
+        List<NoteItemVO> noteItems = getNoteItems(rootFolderId);
 
         Map<String, Object> rootNoteInfo = new HashMap<>();
         rootNoteInfo.put("rootFolderId", rootFolderId);
@@ -147,12 +141,30 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteNoteFolder(Integer folderId) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
-
         Map<String, Object> params = new HashMap<>();
         params.put("userId", currentUserId);
         params.put("folderId", folderId);
+
+        deleteFolderRecursive(params);
+    }
+
+    private void deleteFolderRecursive(Map<String, Object> params) {
+        List<NoteFileVO> files = noteDAO.getNoteFiles(params);
+        List<NoteFolderVO> folders = noteDAO.getNoteFolders(params);
+
+        for (NoteFolderVO folder : folders) {
+            Map<String, Object> lowerFolderParams = new HashMap<>();
+            lowerFolderParams.put("userId", params.get("userId"));
+            lowerFolderParams.put("folderId", folder.getFolderId());
+
+            deleteFolderRecursive(lowerFolderParams);
+        }
+        for (NoteFileVO file : files) {
+            deleteNoteFileAndScript(file.getFileId());
+        }
 
         noteDAO.deleteNoteFolder(params);
     }
