@@ -96,7 +96,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void updateNoteFile(Integer fileId, NoteFileVO noteFile) {
-        if (fileId == null || noteFile == null || !noteFile.isExistUpdateElements()) {
+        if (fileId == null || noteFile == null || !noteFile.hasPracticalValues()) {
             return;
         }
 
@@ -135,7 +135,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void updateNoteFolder(Integer folderId, NoteFolderVO noteFolder) {
-        if (folderId == null || noteFolder == null || !noteFolder.isExistUpdateElements()) {
+        if (folderId == null || noteFolder == null || !noteFolder.hasPracticalValues()) {
             return;
         }
 

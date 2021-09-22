@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateMyInfo(UserVO user)  {
-        if (user == null || !user.isExistUpdateElements()) {
+        if (user == null || !user.hasPracticalValues()) {
             return;
         }
 

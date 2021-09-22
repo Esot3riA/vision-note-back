@@ -75,7 +75,7 @@ public class ScriptServiceImpl implements ScriptService {
 
     @Override
     public void updateParagraph(Integer paragraphId, ScriptParagraphVO paragraph) {
-        if (paragraphId == null || paragraph == null || !paragraph.isExistUpdateElements()) {
+        if (paragraphId == null || paragraph == null || !paragraph.hasPracticalValues()) {
             return;
         }
 

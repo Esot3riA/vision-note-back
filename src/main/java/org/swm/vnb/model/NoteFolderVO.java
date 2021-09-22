@@ -24,7 +24,7 @@ public class NoteFolderVO {
     @ApiModelProperty(hidden = true)
     private String updatedAt;
 
-    public boolean isExistUpdateElements() {
+    public boolean hasPracticalValues() {
         return folderName != null || parentFolderId != null;
     }
 }

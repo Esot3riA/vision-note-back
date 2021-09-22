@@ -81,7 +81,7 @@ public class UserVO implements UserDetails {
         return true;
     }
 
-    public boolean isExistUpdateElements() {
+    public boolean hasPracticalValues() {
         return typeId != null
                 || password != null
                 || authority != null

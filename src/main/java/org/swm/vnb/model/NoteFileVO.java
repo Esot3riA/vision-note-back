@@ -36,7 +36,7 @@ public class NoteFileVO {
     @ApiModelProperty(hidden = true)
     private String updatedAt;
 
-    public boolean isExistUpdateElements() {
+    public boolean hasPracticalValues() {
         return folderId != null
                 || fileName != null
                 || isImportant != null;
