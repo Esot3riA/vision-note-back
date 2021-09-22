@@ -67,7 +67,7 @@
         <set>
             <if test="folderId != null">folder_id = #{folderId},</if>
             <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
-            <if test="isImportant != null">is_impotant = #{isImportant}</if>
+            <if test="isImportant != null">is_important = #{isImportant}</if>
         </set>
         WHERE
             file_id = #{fileId}
