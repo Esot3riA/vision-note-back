@@ -23,7 +23,7 @@ public class ScriptVO {
     @ApiModelProperty(required = true, example = "Test title")
     private String fileName;
 
-    @ApiModelProperty(example = "0")
+    @ApiModelProperty(required = true, example = "0")
     private Integer isRecording;
 
     private String audioFile;
