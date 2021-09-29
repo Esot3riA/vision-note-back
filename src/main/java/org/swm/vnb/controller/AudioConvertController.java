@@ -23,7 +23,7 @@ public class AudioConvertController {
         try {
             URI audioUri = ClassLoader.getSystemResource("testfiles/brainstorming_sentence.wav").toURI();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("http://localhost:8088/client/dynamic/recognize"))
+                    .uri(new URI("https://stt.visionnote.io/client/dynamic/recognize"))
                     .POST(HttpRequest.BodyPublishers.ofFile(Paths.get(audioUri)))
                     .build();
 
