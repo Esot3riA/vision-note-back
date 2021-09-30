@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.validation.Errors;
 import org.swm.vnb.model.UserTypeVO;
 import org.swm.vnb.model.UserVO;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.swm.vnb.service.UserService;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -50,9 +52,13 @@ public class UserController {
     @ApiOperation(value="유저 등록", notes="새로운 유저를 등록한다. 인증 없이 호출할 수 있다.")
     @ApiResponses({
             @ApiResponse(code=201, message="등록 성공"),
-            @ApiResponse(code=400, message="제출된 데이터 부족"),
+            @ApiResponse(code=400, message="제출 파라미터 이상"),
             @ApiResponse(code=409, message="이메일 중복")})
-    public ResponseEntity createUser(@ModelAttribute UserVO user) {
+    public ResponseEntity createUser(@Valid @ModelAttribute UserVO user, @ApiIgnore Errors errors) {
+        if (errors.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
         try {
             userService.createUser(user);
         } catch (RuntimeException e) {

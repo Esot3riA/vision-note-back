@@ -6,6 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,24 +20,32 @@ public class UserVO implements UserDetails {
     @ApiModelProperty(hidden = true)
     private Integer userId;
 
+    @NotNull
     @ApiModelProperty(required = true, example = "1")
     private Integer typeId;
 
-    @ApiModelProperty(required = true)
+    @Email
+    @NotBlank
+    @ApiModelProperty(required = true, value="이메일 형식을 따라야 한다.")
     private String email;
 
-    @ApiModelProperty(required = true)
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}")
+    @NotBlank
+    @ApiModelProperty(required = true, value="영문 대소문자와 특수문자가 결합된 8자 이상 20자 이하의 비밀번호여야 한다.")
     private String password;
 
     @ApiModelProperty(hidden = true)
     private String authority;
 
+    @NotBlank
     @ApiModelProperty(required = true)
     private String nickname;
 
+    @NotBlank
     @ApiModelProperty(required = true)
     private String avatar;
 
+    @NotBlank
     @ApiModelProperty(required = true)
     private String socialType;
 
