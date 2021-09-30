@@ -38,8 +38,8 @@ public class NoteController {
         return ResponseEntity.ok(noteService.getMyRootNoteInfo());
     }
 
-    @GetMapping("/note/folder/{folderId:[0-9]+}")
-    @ApiOperation(value="폴더 조회", notes="요청한 폴더 하위의 노트 파일 및 폴더들을 조회한다.")
+    @GetMapping("/note/folder/childs/{folderId:[0-9]+}")
+    @ApiOperation(value="폴더 하위 항목 조회", notes="요청한 폴더 하위의 노트 파일 및 폴더들을 조회한다.")
     @ApiResponses({
             @ApiResponse(code=200, message="조회 성공"),
             @ApiResponse(code=401, message="로그인되지 않음")})
@@ -104,7 +104,17 @@ public class NoteController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
-    // TODO getNoteFolder 생성
+    @GetMapping("/note/folder/{folderId:[0-9]+}")
+    @ApiOperation(value="폴더 조회", notes="노트 폴더의 정보를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code=200, message="조회 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity getNoteFolder(@PathVariable Integer folderId) {
+        NoteFolderVO noteFolder = noteService.getNoteFolder(folderId);
+
+        return ResponseEntity.ok(noteFolder);
+    }
 
     @PostMapping("/note/folder")
     @ApiOperation(value="폴더 생성", notes="새로운 노트 폴더를 생성한다.")

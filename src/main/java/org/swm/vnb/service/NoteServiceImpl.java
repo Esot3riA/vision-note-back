@@ -70,6 +70,17 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    public NoteFolderVO getNoteFolder(Integer folderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("folderId", folderId);
+
+        return noteDAO.getNoteFolder(params);
+    }
+
+    @Override
     public List<NoteFolderVO> getAllParentFolders(Integer folderId) {
         List<NoteFolderVO> parentFolders = new ArrayList<>();
 
