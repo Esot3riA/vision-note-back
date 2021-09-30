@@ -2,8 +2,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.swm.vnb.dao.ScriptDAO">
     <select id="getScript" parameterType="HashMap" resultType="ScriptVO">
-        SELECT s.script_id, nf.folder_id, nf.category_id, sc.category_name, nf.file_name, s.is_recording,
-            s.audio_file, s.video_file, nf.created_at, nf.updated_at
+        SELECT s.script_id, nf.category_id, sc.category_name, nf.file_name, s.is_recording,
+            s.audio_file, s.video_file, nf.folder_id, nf.is_important, nf.created_at, nf.updated_at
         FROM script s
         INNER JOIN note_file nf ON s.script_id = nf.script_id
         INNER JOIN script_category sc ON nf.category_id = sc.category_id

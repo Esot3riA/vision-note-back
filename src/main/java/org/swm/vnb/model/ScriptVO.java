@@ -31,6 +31,12 @@ public class ScriptVO {
     private String videoFile;
 
     @ApiModelProperty(hidden = true)
+    private Integer folderId;
+
+    @ApiModelProperty(hidden = true)
+    private Integer isImportant;
+
+    @ApiModelProperty(hidden = true)
     private String createdAt;
 
     @ApiModelProperty(hidden = true)

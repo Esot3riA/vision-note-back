@@ -39,6 +39,11 @@ public class ScriptServiceImpl implements ScriptService {
         fullScript.setScript(script);
         if (script != null) {
             fullScript.setScriptParagraphs(scriptDAO.getScriptParagraphs(params));
+
+            Map<String, Object> folderParams = new HashMap<>();
+            folderParams.put("userId", currentUserId.toString());
+            folderParams.put("folderId", script.getFolderId());
+            fullScript.setParentFolder(noteDAO.getNoteFolder(folderParams));
         }
 
         return fullScript;
