@@ -11,9 +11,9 @@ import java.util.Map;
 public interface NoteService {
     List<NoteItemVO> getNoteItems(Integer folderId);
     Map<String, Object> getMyRootNoteInfo();
+    List<NoteFolderVO> getAllParentFolders(Integer folderId);
     List<HashMap<String, Object>> searchNotes(String keyword);
 
-    void createNoteFile(NoteFileVO noteFile);
     void updateNoteFile(Integer fileId, NoteFileVO noteFile);
     void deleteNoteFileAndScript(Integer fileId);
 

@@ -70,22 +70,39 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    public List<NoteFolderVO> getAllParentFolders(Integer folderId) {
+        List<NoteFolderVO> parentFolders = new ArrayList<>();
+
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("folderId", folderId);
+
+        NoteFolderVO parentFolder = noteDAO.getNoteFolder(params);
+        while (!isRootFolder(parentFolder)) {
+            parentFolders.add(parentFolder);
+
+            params.put("folderId", parentFolder.getParentFolderId());
+            parentFolder = noteDAO.getNoteFolder(params);
+        }
+        parentFolders.add(parentFolder);
+
+        return parentFolders;
+    }
+
+    private boolean isRootFolder(NoteFolderVO folder) {
+        return (folder != null) && (folder.getParentFolderId()) == null;
+    }
+
+    @Override
     public List<HashMap<String, Object>> searchNotes(String keyword) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
         Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId.toString());
+        params.put("userId", currentUserId);
         params.put("keyword", keyword);
 
         return noteDAO.searchNotes(params);
-    }
-
-    @Override
-    public void createNoteFile(NoteFileVO noteFile) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-        noteFile.setUserId(currentUserId);
-
-        noteDAO.createNoteFile(noteFile);
     }
 
     @Override

@@ -50,6 +50,18 @@ public class NoteController {
         return ResponseEntity.ok(noteItems);
     }
 
+    @GetMapping("/note/folder/parents/{folderId:[0-9]+}")
+    @ApiOperation(value="상위 폴더 일괄 조회", notes="요청한 폴더 상위에 있는 폴더들을 조회한다. 하위 폴더부터 상위 폴더까지 순서대로 반환된다.")
+    @ApiResponses({
+            @ApiResponse(code=200, message="조회 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity getAllParentFolders(@PathVariable Integer folderId) {
+        List<NoteFolderVO> parentFolders = noteService.getAllParentFolders(folderId);
+
+        return ResponseEntity.ok(parentFolders);
+    }
+
     @GetMapping("/note/search/{keyword}")
     @ApiOperation(value="노트 검색", notes="모든 노트를 검색한다. 유저의 모든 학습노트 중 keyword가 포함된 노트를 반환한다.")
     @ApiResponses({
@@ -91,6 +103,8 @@ public class NoteController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
+    // TODO getNoteFolder 생성
 
     @PostMapping("/note/folder")
     @ApiOperation(value="폴더 생성", notes="새로운 노트 폴더를 생성한다.")
