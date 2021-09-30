@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
         NoteFolderVO rootFolder = new NoteFolderVO();
         rootFolder.setUserId(user.getUserId());
-        rootFolder.setFolderName("root");
+        rootFolder.setFolderName("내 노트");
         rootFolder.setParentFolderId(null);
 
         noteDAO.createNoteFolder(rootFolder);
