@@ -23,6 +23,18 @@ jwt:
   secret: ENC(6G9N7wMf9N4E7WLnskaGQhGo+m2EROg9xOJEVARHZg/ZyQbxYkto8twrxQg+lv/2Y5xT1EpxoJwIH1D0T80Gj3gzN2q4AHH7fCtkCX3eEGG3kKiuekJ0tljGSHVYRW8X8ttobXrYv2JxXvcUb0z/KSsU4MmuDw/xAI57CbklY+zB+Z3K7WvjODynuZWAL/thARkJ1XnI4H1UiW3awKNjCicPm7jYihkS+ExSmTPjkNk=)
   token-validity-in-seconds: 86400
 
+cloud:
+  aws:
+    credentials:
+      accessKey: ENC(05tPvYj13llPe3oBlm84TUs1w6QyMqKhMnIcSVS/tUI/mQWnSpvo5jj7PPWkQH/dF6DqApNsEPbEQc4WVOR95w==)
+      secretKey: ENC(jpeuFHOwNM/Ltrgjrzalv+Uww4vZbaP4CXYfhtevHxa3Ugi/e6te/dR/DYttdGug6reDpz/CP5S0w+wOZBl1wd8TWvjDp5F4ZT79x2+fPaw=)
+    s3:
+      bucket: ENC(c4O53MMpkiNq1yV0ZlhsXE1f2vFwVhaZmoVYHCsLJFp/N4YKr2ucfvnWirIxEjGbxXJGiNY6NWPY0pFKc9b7RA==)
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
 logging:
   level:
     org.swm.vnb: DEBUG
