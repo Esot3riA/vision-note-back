@@ -1,6 +1,7 @@
 package org.swm.vnb.controller;
 
 import io.swagger.annotations.Api;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,11 @@ public class AudioConvertController {
         HttpResponse<String> result = HttpClient.newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
-        return ResponseEntity.ok().body(result.body());
+        return ResponseEntity.ok()
+                .body(decodeUnicode(result.body()));
+    }
+
+    private String decodeUnicode(String rawString) {
+        return StringEscapeUtils.unescapeJava(rawString);
     }
 }
