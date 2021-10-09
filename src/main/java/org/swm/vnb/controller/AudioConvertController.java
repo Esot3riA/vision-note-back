@@ -1,5 +1,6 @@
 package org.swm.vnb.controller;
 
+import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,12 @@ public class AudioConvertController {
 
     @PostMapping("/audio")
     public ResponseEntity convertAudio(@RequestParam("audio")MultipartFile audio) throws IOException {
-        s3Uploader.upload(audio, "static");
+        String fileUrl = s3Uploader.upload(audio, "static");
 
-        return ResponseEntity.ok().body(null);
+        JsonObject responseObj = new JsonObject();
+        responseObj.addProperty("file", fileUrl);
+
+        return ResponseEntity.ok().body(fileUrl);
     }
 
     @PostMapping("/audio/test")

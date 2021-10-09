@@ -29,10 +29,10 @@ public class S3Uploader {
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
 
         String fileName = dirName + "/" + UUID.randomUUID() + localFile.getName();
-        String fileUrl = putS3(localFile, fileName);
+        putS3(localFile, fileName);
 
         removeLocalFile(localFile);
-        return fileUrl;
+        return fileName;
     }
 
     private String putS3(File uploadFile, String fileName) {
