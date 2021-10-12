@@ -29,11 +29,8 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<NoteItemVO> getNoteItems(Integer folderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("folderId", folderId.toString());
-        params.put("userId", currentUserId.toString());
 
         List<NoteFileVO> files = noteDAO.getNoteFiles(params);
         List<NoteFolderVO> folders = noteDAO.getNoteFolders(params);
@@ -71,10 +68,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public NoteFolderVO getNoteFolder(Integer folderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("folderId", folderId);
 
         return noteDAO.getNoteFolder(params);
@@ -84,9 +78,7 @@ public class NoteServiceImpl implements NoteService {
     public List<NoteFolderVO> getAllParentFolders(Integer folderId) {
         List<NoteFolderVO> parentFolders = new ArrayList<>();
 
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("folderId", folderId);
 
         NoteFolderVO parentFolder = noteDAO.getNoteFolder(params);
@@ -107,11 +99,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<HashMap<String, Object>> searchNotes(String keyword) {
-        // TODO make userId hashmap automatically
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("keyword", keyword);
 
         return noteDAO.searchNotes(params);
@@ -132,10 +120,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void moveNoteFile(Integer fileId, Integer folderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("fileId", fileId);
         params.put("folderId", folderId);
 
@@ -148,10 +133,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteNoteFileAndScript(Integer fileId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("fileId", fileId);
 
         Integer scriptId = noteDAO.getScriptIdByFileId(params);
@@ -187,9 +169,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void moveNoteFolder(Integer folderId, Integer parentFolderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("folderId", folderId);
         params.put("parentFolderId", parentFolderId);
 
@@ -201,9 +181,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteNoteFolder(Integer folderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("folderId", folderId);
 
         deleteFolderRecursive(params);
@@ -233,9 +211,7 @@ public class NoteServiceImpl implements NoteService {
             return false;
         }
 
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("folderId", folderId);
 
         NoteFolderVO folder = noteDAO.getNoteFolder(params);
@@ -243,9 +219,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     void renewFolderRecursive(Integer folderId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", currentUserId);
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("folderId", folderId);
 
         NoteFolderVO folder = noteDAO.getNoteFolder(params);

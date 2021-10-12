@@ -6,6 +6,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SecurityUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
@@ -29,6 +32,14 @@ public class SecurityUtil {
         }
 
         return Integer.parseInt(id);
+    }
+
+    public static Map<String, Object> getUserParams() {
+        Integer currentUserId = getCurrentUserId();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId.toString());
+        return params;
     }
 
 }

@@ -11,14 +11,14 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface ScriptDAO {
-    ScriptVO getScript(Map<String, String> params);
+    ScriptVO getScript(Map<String, Object> params);
     void createScript(ScriptVO script);
     void updateScriptRecording(Map<String, Object> params);
 
-    List<ScriptParagraphVO> getScriptParagraphs(Map<String, String> params);
+    List<ScriptParagraphVO> getScriptParagraphs(Map<String, Object> params);
     void createParagraph(ScriptParagraphVO paragraph);
     void updateParagraph(ScriptParagraphVO paragraph);
-    void deleteParagraph(Map<String, String> params);
+    void deleteParagraph(Map<String, Object> params);
 
     void deleteScript(Map<String, Object> params);
     void deleteScriptsByUserId(Integer userId);

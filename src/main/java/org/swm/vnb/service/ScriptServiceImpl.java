@@ -27,11 +27,8 @@ public class ScriptServiceImpl implements ScriptService {
 
     @Override
     public FullScriptVO getFullScript(Integer scriptId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("scriptId", scriptId.toString());
-        params.put("userId", currentUserId.toString());
 
         ScriptVO script = scriptDAO.getScript(params);
 
@@ -40,8 +37,7 @@ public class ScriptServiceImpl implements ScriptService {
         if (script != null) {
             fullScript.setScriptParagraphs(scriptDAO.getScriptParagraphs(params));
 
-            Map<String, Object> folderParams = new HashMap<>();
-            folderParams.put("userId", currentUserId.toString());
+            Map<String, Object> folderParams = SecurityUtil.getUserParams();
             folderParams.put("folderId", script.getFolderId());
             fullScript.setParentFolder(noteDAO.getNoteFolder(folderParams));
         }
@@ -70,12 +66,9 @@ public class ScriptServiceImpl implements ScriptService {
 
     @Override
     public void updateScriptRecording(Integer scriptId, Boolean isRecording) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("scriptId", scriptId);
         params.put("isRecording", isRecording);
-        params.put("userId", currentUserId);
 
         scriptDAO.updateScriptRecording(params);
     }
@@ -105,11 +98,8 @@ public class ScriptServiceImpl implements ScriptService {
 
     @Override
     public void deleteParagraph(Integer paragraphId) {
-        Integer currentUserId = SecurityUtil.getCurrentUserId();
-
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("paragraphId", paragraphId.toString());
-        params.put("userId", currentUserId.toString());
 
         scriptDAO.deleteParagraph(params);
     }
