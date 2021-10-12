@@ -1,6 +1,7 @@
 package org.swm.vnb.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
+@Builder
 public class UserVO implements UserDetails {
 
     @ApiModelProperty(hidden = true)
