@@ -77,7 +77,6 @@ public class NoteController {
     @PutMapping("/note/file/{fileId:[0-9]+}")
     @ApiOperation(value="노트 수정", notes="노트 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="folderId", dataType="int", paramType="query", example="1"),
             @ApiImplicitParam(name="fileName", dataType="String", paramType="query"),
             @ApiImplicitParam(name="isImportant", dataType="int", paramType="query", example="0")})
     @ApiResponses({
@@ -87,6 +86,20 @@ public class NoteController {
     public ResponseEntity updateNoteFile(@PathVariable Integer fileId,
                                          @ApiIgnore @ModelAttribute NoteFileVO noteFile) {
         noteService.updateNoteFile(fileId, noteFile);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @PutMapping("/note/file/move/{fileId:[0-9]+}")
+    @ApiOperation(value="노트 이동", notes="노트를 다른 폴더로 이동시킨다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="folderId", dataType="int", paramType="query", example="1")})
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity moveNoteFile(@PathVariable Integer fileId, @RequestParam Integer folderId) {
+        noteService.moveNoteFile(fileId, folderId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
@@ -103,6 +116,7 @@ public class NoteController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
 
     @GetMapping("/note/folder/{folderId:[0-9]+}")
     @ApiOperation(value="폴더 조회", notes="노트 폴더의 정보를 조회한다.")
@@ -140,8 +154,7 @@ public class NoteController {
     @PutMapping("/note/folder/{folderId:[0-9]+}")
     @ApiOperation(value="폴더 수정", notes="노트 폴더 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="folderName", dataType="String", paramType="query"),
-            @ApiImplicitParam(name="parentFolderId", dataType="int", paramType="query", example="1")})
+            @ApiImplicitParam(name="folderName", dataType="String", paramType="query")})
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음")})
@@ -149,6 +162,20 @@ public class NoteController {
     public ResponseEntity updateNoteFolder(@PathVariable Integer folderId,
                                            @ApiIgnore @ModelAttribute NoteFolderVO noteFolder) {
         noteService.updateNoteFolder(folderId, noteFolder);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @PutMapping("/note/folder/move/{folderId:[0-9]+}")
+    @ApiOperation(value="폴더 이동", notes="노트를 다른 폴더로 이동시킨다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="parentFolderId", dataType="int", paramType="query", example="1")})
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity moveNoteFolder(@PathVariable Integer folderId, @RequestParam Integer parentFolderId) {
+        noteService.moveNoteFolder(folderId, parentFolderId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

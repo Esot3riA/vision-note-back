@@ -16,10 +16,12 @@ public interface NoteService {
     List<HashMap<String, Object>> searchNotes(String keyword);
 
     void updateNoteFile(Integer fileId, NoteFileVO noteFile);
+    void moveNoteFile(Integer fileId, Integer folderId);
     void deleteNoteFileAndScript(Integer fileId);
 
     void createNoteFolder(NoteFolderVO noteFolder);
     void updateNoteFolder(Integer folderId, NoteFolderVO noteFolder);
+    void moveNoteFolder(Integer folderId, Integer parentFolderId);
     void deleteNoteFolder(Integer folderId);
 
     boolean isValidFolderId(Integer folderId);

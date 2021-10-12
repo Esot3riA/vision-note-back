@@ -22,11 +22,15 @@ public interface NoteDAO {
 
     void createNoteFile(NoteFileVO noteFile);
     void updateNoteFile(NoteFileVO noteFile);
+    void moveNoteFile(Map<String, Object> params);
     void deleteNoteFile(Map<String, Object> params);
     void deleteNoteFilesByUserId(Integer userId);
 
     void createNoteFolder(NoteFolderVO noteFolder);
     void updateNoteFolder(NoteFolderVO noteFolder);
+    void moveNoteFolder(Map<String, Object> params);
     void deleteNoteFolder(Map<String, Object> params);
     void deleteNoteFoldersByUserId(Integer userId);
+
+    void renewNoteFolder(Map<String, Object> params);
 }

@@ -107,6 +107,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<HashMap<String, Object>> searchNotes(String keyword) {
+        // TODO make userId hashmap automatically
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
         Map<String, Object> params = new HashMap<>();
@@ -127,6 +128,22 @@ public class NoteServiceImpl implements NoteService {
         noteFile.setFileId(fileId);
         noteDAO.updateNoteFile(noteFile);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void moveNoteFile(Integer fileId, Integer folderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("fileId", fileId);
+        params.put("folderId", folderId);
+
+        noteDAO.moveNoteFile(params);
+
+        renewFolderRecursive(folderId);
+    }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -166,6 +183,19 @@ public class NoteServiceImpl implements NoteService {
         noteFolder.setFolderId(folderId);
 
         noteDAO.updateNoteFolder(noteFolder);
+    }
+
+    @Override
+    public void moveNoteFolder(Integer folderId, Integer parentFolderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("folderId", folderId);
+        params.put("parentFolderId", parentFolderId);
+
+        noteDAO.moveNoteFolder(params);
+
+        renewFolderRecursive(parentFolderId);
     }
 
     @Override
@@ -210,5 +240,21 @@ public class NoteServiceImpl implements NoteService {
 
         NoteFolderVO folder = noteDAO.getNoteFolder(params);
         return folder != null;
+    }
+
+    void renewFolderRecursive(Integer folderId) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", currentUserId);
+        params.put("folderId", folderId);
+
+        NoteFolderVO folder = noteDAO.getNoteFolder(params);
+        while (!isRootFolder(folder)) {
+            noteDAO.renewNoteFolder(params);
+
+            params.put("folderId", folder.getParentFolderId());
+            folder = noteDAO.getNoteFolder(params);
+        }
+        noteDAO.renewNoteFolder(params);
     }
 }
