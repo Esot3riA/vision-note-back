@@ -13,6 +13,7 @@ import java.util.Map;
 public interface ScriptDAO {
     ScriptVO getScript(Map<String, String> params);
     void createScript(ScriptVO script);
+    void updateScriptRecording(Map<String, Object> params);
 
     List<ScriptParagraphVO> getScriptParagraphs(Map<String, String> params);
     void createParagraph(ScriptParagraphVO paragraph);

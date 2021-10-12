@@ -19,6 +19,14 @@
             (#{userId}, #{isRecording}, #{audioFile}, #{videoFile})
     </insert>
 
+    <update id="updateScriptRecording" parameterType="HashMap">
+        UPDATE script
+        SET is_recording = #{isRecording}
+        WHERE
+            script_id = #{scriptId}
+            AND user_id = #{userId}
+    </update>
+
     <select id="getScriptParagraphs" parameterType="HashMap" resultType="ScriptParagraphVO">
         SELECT sp.paragraph_id, sp.script_id, sp.paragraph_sequence, sp.start_time, sp.end_time,
             sp.paragraph_content, sp.memo_content, sp.is_bookmarked, sp.created_at

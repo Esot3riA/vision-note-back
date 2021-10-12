@@ -69,6 +69,18 @@ public class ScriptServiceImpl implements ScriptService {
     }
 
     @Override
+    public void updateScriptRecording(Integer scriptId, Boolean isRecording) {
+        Integer currentUserId = SecurityUtil.getCurrentUserId();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("scriptId", scriptId);
+        params.put("isRecording", isRecording);
+        params.put("userId", currentUserId);
+
+        scriptDAO.updateScriptRecording(params);
+    }
+
+    @Override
     public void createParagraph(Integer scriptId, ScriptParagraphVO paragraph) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
 
