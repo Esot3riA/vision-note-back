@@ -35,7 +35,7 @@
             <if test="password != null and password != ''">password = #{password},</if>
             <if test="nickname != null and nickname != ''">nickname = #{nickname},</if>
             <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
-            <if test="socialType != null and socialType != ''">socialType = #{socialType}</if>
+            <if test="socialType != null and socialType != ''">social_type = #{socialType}</if>
         </set>
         WHERE user_id = #{userId}
     </update>
