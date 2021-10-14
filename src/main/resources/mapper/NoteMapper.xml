@@ -35,7 +35,7 @@
             AND parent_folder_id IS NULL
     </select>
 
-    <select id="getScriptIdByFileId" parameterType="int" resultType="int">
+    <select id="getScriptIdByFileId" parameterType="HashMap" resultType="int">
         SELECT script_id
         FROM note_file
         WHERE
