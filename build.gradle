@@ -35,11 +35,15 @@ dependencies {
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
     implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
     implementation 'commons-lang:commons-lang:2.6'
 }
 
 test {
     useJUnitPlatform()
     environment "JASYPT_ENCRYPTOR_PASSWORD", "test_password"
+}
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active", activeProfile
 }

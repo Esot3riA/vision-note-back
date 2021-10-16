@@ -7,8 +7,11 @@ spring:
     url: ENC(zITM5/nYwUxhXdNh0mEJulABglRAES5XIabttUBVihQgVXxT7iWhu8bFIYGWswNkbMCi5dscNwXzeHuD9qSHZ1WJCQaF39T9esLVcJmIqKBRornFBkgfs+zGdKWQQuSXZeYpl2k0us7dtWILZZsHLrZYhTYeK5bp/9nB74z9Vd8=)
     username: ENC(gvDA85V2d12rNTcPrr+W6h3ATK7NuHMURqxQWVTJmkpio94Ccduk9XYIzPZ+gcYP)
     password: ENC(VfYNpP98DxB3rZuke/EWyckynIX9+jP0wxd9ymw4LSv5LApiNR8/bmN2lnU5mNKt)
+  config:
+    activate:
+      on-profile: dev
 
-mybatis:
+  mybatis:
   type-aliases-package: org.swm.vnb.model
   mapper-locations: mapper/**/*.xml
   configuration:
@@ -24,7 +27,7 @@ jwt:
   token-validity-in-seconds: 86400
 
 audio:
-  path: ENC(vopKDezRhBUlRZGMXA08hQy+YW63B+Amki0zSL99aVEAnp7PHrN9oS4q1Djb35q5RmJz6chc57q04Me7C9lFgg==)
+  path: ENC(nmPoITZ0nXhlRzaFx6Gahrm84EiM9N3R16rTwBmshH5gqfDTWrV4VRLGHYm9aTmVuuzEh8O8dMo6EZnIOuRzcrt/wMZ/AkrYUnv3Jjzjm6fbyRk7s45itKy5z7yRC8SH)
 
 logging:
   level:
