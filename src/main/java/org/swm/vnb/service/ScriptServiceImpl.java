@@ -65,7 +65,7 @@ public class ScriptServiceImpl implements ScriptService {
     }
 
     @Override
-    public void updateScriptRecording(Integer scriptId, Boolean isRecording) {
+    public void updateScriptRecording(Integer scriptId, Integer isRecording) {
         Map<String, Object> params = SecurityUtil.getUserParams();
         params.put("scriptId", scriptId);
         params.put("isRecording", isRecording);

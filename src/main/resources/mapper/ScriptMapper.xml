@@ -29,7 +29,7 @@
 
     <select id="getScriptParagraphs" parameterType="HashMap" resultType="ScriptParagraphVO">
         SELECT sp.paragraph_id, sp.script_id, sp.paragraph_sequence, sp.start_time, sp.end_time,
-            sp.paragraph_content, sp.memo_content, sp.is_bookmarked, sp.created_at
+            sp.paragraph_content, sp.memo_content, sp.is_bookmarked, sp.created_at, sp.updated_at
         FROM script_paragraph sp
         INNER JOIN script s ON sp.script_id = s.script_id
         WHERE

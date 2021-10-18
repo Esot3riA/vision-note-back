@@ -57,12 +57,12 @@ public class ScriptController {
     @PostMapping("/script/recording/{scriptId:[0-9]+}")
     @ApiOperation(value="스크립트 녹음 여부 변경", notes="주어진 script ID의 녹음 중(isRecording) 여부를 변경한다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="isRecording", dataType="Boolean", paramType="query", required=true)})
+            @ApiImplicitParam(name="isRecording", dataType="int", paramType="query", required=true, example="0", allowableValues="0, 1")})
     @ApiResponses({
             @ApiResponse(code=204, message="수정 성공"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity updateScriptRecording(@PathVariable Integer scriptId, @RequestParam Boolean isRecording) {
+    public ResponseEntity updateScriptRecording(@PathVariable Integer scriptId, @RequestParam Integer isRecording) {
         scriptService.updateScriptRecording(scriptId, isRecording);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -82,7 +82,7 @@ public class ScriptController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(responseObj);
+                .body(responseObj.toString());
     }
 
     @PutMapping("/script/paragraph/{paragraphId:[0-9]+}")

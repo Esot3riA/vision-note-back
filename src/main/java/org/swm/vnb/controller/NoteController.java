@@ -78,7 +78,7 @@ public class NoteController {
     @ApiOperation(value="노트 수정", notes="노트 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name="fileName", dataType="String", paramType="query"),
-            @ApiImplicitParam(name="isImportant", dataType="int", paramType="query", example="0")})
+            @ApiImplicitParam(name="isImportant", dataType="int", paramType="query", example="0", allowableValues="0, 1")})
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
             @ApiResponse(code=401, message="로그인되지 않음")})

@@ -44,10 +44,11 @@
     </select>
 
     <select id="searchNotes" parameterType="HashMap" resultType="HashMap">
-        SELECT s.script_id AS scriptId, s.title, sp.paragraph_content AS paragraphContent, nfo.folder_name AS folderName
+        SELECT s.script_id AS scriptId, nfl.file_name,
+            sp.paragraph_content AS paragraphContent, nfo.folder_name AS folderName
         FROM script s
         INNER JOIN script_paragraph sp ON s.script_id = sp.script_id
-        INNER JOIN note_file nfl ON s.file_id = nfl.file_id
+        INNER JOIN note_file nfl ON s.script_id = nfl.script_id
         INNER JOIN note_folder nfo ON nfl.folder_id = nfo.folder_id
         WHERE
             s.user_id = #{userId}
