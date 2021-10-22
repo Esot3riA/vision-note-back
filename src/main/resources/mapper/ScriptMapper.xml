@@ -51,8 +51,8 @@
         <set>
             <if test="startTime != null and startTime != ''">start_time = #{startTime},</if>
             <if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
-            <if test="paragraphContent != null and paragraphContent != ''">paragraph_content = #{paragraphContent},</if>
-            <if test="memoContent != null and memoContent != ''">memo_content = #{memoContent},</if>
+            <if test="paragraphContent != null">paragraph_content = #{paragraphContent},</if>
+            <if test="memoContent != null">memo_content = #{memoContent},</if>
             <if test="isBookmarked != null">is_bookmarked = #{isBookmarked}</if>
         </set>
         WHERE
