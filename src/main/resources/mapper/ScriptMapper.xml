@@ -40,10 +40,10 @@
     <insert id="createParagraph" parameterType="ScriptParagraphVO" useGeneratedKeys="true" keyProperty="paragraphId">
         INSERT INTO script_paragraph
             (script_id, user_id, paragraph_sequence, start_time,
-            end_time, paragraph_content, memo_content, is_bookmarked)
+            end_time, paragraph_content, memo_content)
         VALUES
             (#{scriptId}, #{userId}, #{paragraphSequence}, #{startTime},
-            #{endTime}, #{paragraphContent}, #{memoContent}, #{isBookmarked})
+            #{endTime}, #{paragraphContent}, #{memoContent})
     </insert>
 
     <update id="updateParagraph" parameterType="ScriptParagraphVO">
