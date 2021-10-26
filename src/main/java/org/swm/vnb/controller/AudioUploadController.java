@@ -45,6 +45,7 @@ public class AudioUploadController {
             ResponseEntity<String> result = requestSTT(sttStoragePath + "/audio/" + audioName);
             return result;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't process audio", e);
         }
     }

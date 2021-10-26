@@ -1,5 +1,6 @@
 package org.swm.vnb.controller;
 
+import com.google.gson.JsonObject;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -107,7 +108,7 @@ public class UserController {
     @PutMapping("/user/avatar")
     @ApiOperation(value="유저 아바타 변경", notes="현재 로그인 된 유저의 아바타 이미지를 변경한다.")
     @ApiResponses({
-            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=201, message="변경 완료"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateMyAvatar(@RequestParam("profile") MultipartFile avatar) {
@@ -120,7 +121,10 @@ public class UserController {
             UserVO userVO = UserVO.builder().avatar(newAvatarName).build();
             userService.updateMyInfo(userVO);
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("avatarName", newAvatarName);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't save image", e);
         }
