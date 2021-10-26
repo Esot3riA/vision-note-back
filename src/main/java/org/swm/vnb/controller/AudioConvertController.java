@@ -1,7 +1,7 @@
 package org.swm.vnb.controller;
 
 import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringEscapeUtils;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -38,7 +38,8 @@ public class AudioConvertController {
     }
 
     @PostMapping("/audio")
-    public ResponseEntity convertAudio(@RequestParam("audio")MultipartFile audio) {
+    @ApiOperation(value="오디오 파일 업로드", notes="강의 녹음 오디오 파일을 업로드하고 STT 결과를 받아온다.")
+    public ResponseEntity convertAudio(@RequestParam("audio") MultipartFile audio) {
         try {
             String audioName = audioFileUtil.save(audio);
             ResponseEntity<String> result = requestSTT(audioFolder + "/" + audioName);
