@@ -43,4 +43,11 @@ public class EncryptTest {
 
         Assertions.assertEquals(plainText, decryptedText);
     }
+    
+    @Test
+    public void DecryptTest() {
+        String encryptedText = "eWp+bpgVBfe0C6F8+JIjWgL0GMg8UDiyY8G2WavVFzdBK4MceU2CtyF/BDqK5vjX";
+        String decryptedText = encryptor.decrypt(encryptedText);
+        logger.info("Decrypted Text :\t" + decryptedText);
+    }
 }
