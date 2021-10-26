@@ -20,19 +20,19 @@ import org.swm.vnb.util.AudioFileUtil;
 @RestController
 @RequestMapping("/v1")
 @Api(tags = {"오디오 변환 API"})
-public class AudioConvertController {
+public class AudioUploadController {
 
-    @Value("${audio.stt-path}")
-    private String audioFolder;
+    @Value("${storage.s3.stt-server-path}")
+    private String sttStoragePath;
 
-    @Value("${audio.stt-server-url}")
-    private String sttServerUrl;
+    @Value("${uri.stt-server}")
+    private String sttServerUri;
 
     private final AudioFileUtil audioFileUtil;
     private final RestTemplate restTemplate;
 
     @Autowired
-    public AudioConvertController(AudioFileUtil audioFileUtil, RestTemplate restTemplate) {
+    public AudioUploadController(AudioFileUtil audioFileUtil, RestTemplate restTemplate) {
         this.audioFileUtil = audioFileUtil;
         this.restTemplate = restTemplate;
     }
@@ -42,7 +42,7 @@ public class AudioConvertController {
     public ResponseEntity convertAudio(@RequestParam("audio") MultipartFile audio) {
         try {
             String audioName = audioFileUtil.save(audio);
-            ResponseEntity<String> result = requestSTT(audioFolder + "/" + audioName);
+            ResponseEntity<String> result = requestSTT(sttStoragePath + "/audio/" + audioName);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,7 +57,7 @@ public class AudioConvertController {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, headers);
 
-        return restTemplate.exchange(sttServerUrl + "/client/local/recognize",
+        return restTemplate.exchange(sttServerUri + "/client/local/recognize",
                 HttpMethod.POST, httpEntity, String.class);
     }
 }

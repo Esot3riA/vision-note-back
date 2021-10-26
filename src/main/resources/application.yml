@@ -23,10 +23,13 @@ jwt:
   secret: ENC(6G9N7wMf9N4E7WLnskaGQhGo+m2EROg9xOJEVARHZg/ZyQbxYkto8twrxQg+lv/2Y5xT1EpxoJwIH1D0T80Gj3gzN2q4AHH7fCtkCX3eEGG3kKiuekJ0tljGSHVYRW8X8ttobXrYv2JxXvcUb0z/KSsU4MmuDw/xAI57CbklY+zB+Z3K7WvjODynuZWAL/thARkJ1XnI4H1UiW3awKNjCicPm7jYihkS+ExSmTPjkNk=)
   token-validity-in-seconds: 86400
 
-audio:
-  local-path: ENC(3iR0Fq9bVic2JG+VMEELLVyc3qxgRoHEBKJ/gTGiDXOl6nS0GtTekKtyiHvFUg9dLmiKyo/nzVy0tfFV1OPvCg==)
-  stt-path: ENC(3iR0Fq9bVic2JG+VMEELLVyc3qxgRoHEBKJ/gTGiDXOl6nS0GtTekKtyiHvFUg9dLmiKyo/nzVy0tfFV1OPvCg==)
-  stt-server-url: ENC(5PGE3VZUI127T1Rc8UPYkUH/eo8kMSA2lAs+UVWUaIdCga7C5Jmg+VJHVKLl+pqdNZq3bF64Bjwje38QmsZLBQ==)
+storage:
+  s3:
+    api-server-path: ENC(9rCSOhrX7I+tE0kDlffpO4Fvjpi+ru0EJBvywwUHFAiwohLE2Diqfiz6SeMspIPgkyg10sMlCB8JEiTk2K+I5A==)
+    stt-server-path: ENC(9rCSOhrX7I+tE0kDlffpO4Fvjpi+ru0EJBvywwUHFAiwohLE2Diqfiz6SeMspIPgkyg10sMlCB8JEiTk2K+I5A==)
+
+uri:
+  stt-server: ENC(sBT9yH6em7npAkmojZ0xb7nRrKIR+NcsR9uFNAQYlxH7DeY1x3tY7tbTcRXk7JedbmCmie2iDge5zTbfNggj0g==)
 
 logging:
   level:

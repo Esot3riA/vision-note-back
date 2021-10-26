@@ -16,8 +16,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AudioFileUtil {
 
-    @Value("${audio.local-path}")
-    private String audioPath;
+    @Value("${storage.s3.api-server-path}")
+    private String localStoragePath;
 
     public String save(MultipartFile multipartFile) throws IOException {
         File localFile = saveLocalFile(multipartFile)
@@ -28,7 +28,7 @@ public class AudioFileUtil {
 
     private Optional<File> saveLocalFile(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID() + file.getOriginalFilename();
-        File localFile = new File(audioPath + "/" + fileName);
+        File localFile = new File(localStoragePath + "/audio/" + fileName);
 
         if (localFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(localFile)) {
