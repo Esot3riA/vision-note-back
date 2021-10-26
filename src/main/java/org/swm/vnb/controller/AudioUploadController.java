@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.swm.vnb.util.AudioFileUtil;
+import org.swm.vnb.util.FileSaveUtil;
 
 
 @RestController
@@ -28,12 +28,12 @@ public class AudioUploadController {
     @Value("${uri.stt-server}")
     private String sttServerUri;
 
-    private final AudioFileUtil audioFileUtil;
+    private final FileSaveUtil fileSaveUtil;
     private final RestTemplate restTemplate;
 
     @Autowired
-    public AudioUploadController(AudioFileUtil audioFileUtil, RestTemplate restTemplate) {
-        this.audioFileUtil = audioFileUtil;
+    public AudioUploadController(FileSaveUtil fileSaveUtil, RestTemplate restTemplate) {
+        this.fileSaveUtil = fileSaveUtil;
         this.restTemplate = restTemplate;
     }
 
@@ -41,11 +41,10 @@ public class AudioUploadController {
     @ApiOperation(value="오디오 파일 업로드", notes="강의 녹음 오디오 파일을 업로드하고 STT 결과를 받아온다.")
     public ResponseEntity convertAudio(@RequestParam("audio") MultipartFile audio) {
         try {
-            String audioName = audioFileUtil.save(audio);
+            String audioName = fileSaveUtil.saveAudio(audio);
             ResponseEntity<String> result = requestSTT(sttStoragePath + "/audio/" + audioName);
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't process audio", e);
         }
     }

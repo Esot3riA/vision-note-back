@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.hasText(password)) {
             return passwordEncoder.encode(password);
         }
-        return "";
+        return null;
     }
 
 }

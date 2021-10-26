@@ -14,29 +14,42 @@ import java.util.UUID;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AudioFileUtil {
+public class FileSaveUtil {
 
     @Value("${storage.s3.api-server-path}")
     private String localStoragePath;
 
-    public String save(MultipartFile multipartFile) throws IOException {
-        File localFile = saveLocalFile(multipartFile)
+    public String saveAudio(MultipartFile audioFile) throws IOException {
+        File localFile = saveToLocalStorage(audioFile, "audio")
                 .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
 
         return localFile.getName();
     }
 
-    private Optional<File> saveLocalFile(MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID() + file.getOriginalFilename();
-        File localFile = new File(localStoragePath + "/audio/" + fileName);
+    public String saveImage(MultipartFile imageFile) throws IOException {
+        File localFile = saveToLocalStorage(imageFile, "avatar")
+                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
 
+        return localFile.getName();
+    }
+
+    private Optional<File> saveToLocalStorage(MultipartFile file, String subDirectory) throws IOException {
+        String fileName = UUID.randomUUID() + file.getOriginalFilename();
+        StringBuilder builder = new StringBuilder()
+                .append(localStoragePath)
+                .append("/")
+                .append(subDirectory)
+                .append("/")
+                .append(fileName);
+
+        File localFile = new File(builder.toString());
         if (localFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(localFile)) {
                 fos.write(file.getBytes());
             }
             return Optional.of(localFile);
         }
-
+        
         return Optional.empty();
     }
 }

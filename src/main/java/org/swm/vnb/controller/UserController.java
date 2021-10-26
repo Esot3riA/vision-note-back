@@ -3,14 +3,16 @@ package org.swm.vnb.controller;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.Errors;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.swm.vnb.model.UserTypeVO;
 import org.swm.vnb.model.UserVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.swm.vnb.service.UserService;
+import org.swm.vnb.util.FileSaveUtil;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -22,10 +24,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final FileSaveUtil fileSaveUtil;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, FileSaveUtil fileSaveUtil) {
         this.userService = userService;
+        this.fileSaveUtil = fileSaveUtil;
     }
 
     @GetMapping("/user")
@@ -99,4 +103,32 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
+    @PutMapping("/user/avatar")
+    @ApiOperation(value="유저 아바타 변경", notes="현재 로그인 된 유저의 아바타 이미지를 변경한다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity updateMyAvatar(@RequestParam("profile") MultipartFile avatar) {
+        if (!isValidImage(avatar)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not a valid image");
+        }
+        try {
+            String newAvatarName = fileSaveUtil.saveImage(avatar);
+
+            UserVO userVO = UserVO.builder().avatar(newAvatarName).build();
+            userService.updateMyInfo(userVO);
+
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't save image", e);
+        }
+    }
+
+    private boolean isValidImage(MultipartFile image) {
+        final long mb = 1024 * 1024;
+        return (image.getSize() <= (mb * 50)) && (image.getContentType().startsWith("image"));
+    }
+
 }
