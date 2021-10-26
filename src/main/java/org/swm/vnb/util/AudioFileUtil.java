@@ -16,8 +16,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AudioFileUtil {
 
-    @Value("${audio.path}")
-    public String audioPath;
+    @Value("${audio.local-path}")
+    private String audioPath;
 
     public String save(MultipartFile multipartFile) throws IOException {
         File localFile = saveLocalFile(multipartFile)

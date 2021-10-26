@@ -1,62 +1,62 @@
 package org.swm.vnb.controller;
 
-import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.swm.vnb.util.AudioFileUtil;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/v1")
 @Api(tags = {"오디오 변환 API"})
 public class AudioConvertController {
 
+    @Value("${audio.stt-path}")
+    private String audioFolder;
+
+    @Value("${audio.stt-server-url}")
+    private String sttServerUrl;
+
     private final AudioFileUtil audioFileUtil;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public AudioConvertController(AudioFileUtil audioFileUtil) {
+    public AudioConvertController(AudioFileUtil audioFileUtil, RestTemplate restTemplate) {
         this.audioFileUtil = audioFileUtil;
+        this.restTemplate = restTemplate;
     }
 
     @PostMapping("/audio")
-    public ResponseEntity convertAudio(@RequestParam("audio")MultipartFile audio) throws IOException {
-        String fileUrl = audioFileUtil.save(audio);
-
-        JsonObject responseObj = new JsonObject();
-        responseObj.addProperty("file", fileUrl);
-
-        return ResponseEntity.ok().body(fileUrl);
+    public ResponseEntity convertAudio(@RequestParam("audio")MultipartFile audio) {
+        try {
+            String audioName = audioFileUtil.save(audio);
+            ResponseEntity<String> result = requestSTT(audioFolder + "/" + audioName);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't process audio", e);
+        }
     }
 
-    @PostMapping("/audio/test")
-    public ResponseEntity convertAudioTest() throws Exception {
-        URI audioUri = ClassLoader.getSystemResource("testfiles/brainstorming_sentence.wav").toURI();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://stt.visionnote.io/client/dynamic/recognize"))
-                .POST(HttpRequest.BodyPublishers.ofFile(Paths.get(audioUri)))
-                .build();
+    private ResponseEntity<String> requestSTT(String audioPath) {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("audio_path", audioPath);
 
-        HttpResponse<String> result = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString());
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(params, headers);
 
-        return ResponseEntity.ok()
-                .body(decodeUnicode(result.body()));
-    }
-
-    private String decodeUnicode(String rawString) {
-        return StringEscapeUtils.unescapeJava(rawString);
+        return restTemplate.exchange(sttServerUrl + "/client/local/recognize",
+                HttpMethod.POST, httpEntity, String.class);
     }
 }

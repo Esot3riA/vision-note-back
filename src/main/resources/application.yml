@@ -24,7 +24,9 @@ jwt:
   token-validity-in-seconds: 86400
 
 audio:
-  path: ENC(vopKDezRhBUlRZGMXA08hQy+YW63B+Amki0zSL99aVEAnp7PHrN9oS4q1Djb35q5RmJz6chc57q04Me7C9lFgg==)
+  local-path: ENC(3iR0Fq9bVic2JG+VMEELLVyc3qxgRoHEBKJ/gTGiDXOl6nS0GtTekKtyiHvFUg9dLmiKyo/nzVy0tfFV1OPvCg==)
+  stt-path: ENC(3iR0Fq9bVic2JG+VMEELLVyc3qxgRoHEBKJ/gTGiDXOl6nS0GtTekKtyiHvFUg9dLmiKyo/nzVy0tfFV1OPvCg==)
+  stt-server-url: ENC(5PGE3VZUI127T1Rc8UPYkUH/eo8kMSA2lAs+UVWUaIdCga7C5Jmg+VJHVKLl+pqdNZq3bF64Bjwje38QmsZLBQ==)
 
 logging:
   level:
