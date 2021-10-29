@@ -12,6 +12,6 @@ public interface UserService {
     UserVO getUserByContext();
     List<UserTypeVO> getUserTypes();
     void createUser(UserVO user);
-    void updateMyInfo(UserVO user);
+    boolean updateMyInfo(UserVO user);
     void deleteMyAccount();
 }

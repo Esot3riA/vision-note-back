@@ -14,6 +14,7 @@ import org.swm.vnb.model.UserVO;
 import org.swm.vnb.util.SecurityUtil;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -77,14 +78,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateMyInfo(UserVO user)  {
+    public boolean updateMyInfo(UserVO user)  {
         if (user == null || !user.hasPracticalValues()) {
-            return;
+            return false;
+        }
+        if (!isEmptyPassword(user.getPassword()) && !isValidPassword(user.getPassword())) {
+            return false;
         }
 
         user.setUserId(SecurityUtil.getCurrentUserId());
         user.setPassword(encodePassword(user.getPassword()));
         userDAO.updateUser(user);
+        return true;
     }
 
     @Override
@@ -100,6 +105,15 @@ public class UserServiceImpl implements UserService {
         noteDAO.deleteNoteFoldersByUserId(currentUserId);
 
         userDAO.deleteUser(currentUserId);
+    }
+
+    private boolean isEmptyPassword(String password) {
+        return password == null || password == "";
+    }
+
+    private boolean isValidPassword(String password) {
+        String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%_*?&~#\\\"'()+,-./:;<=>@])[A-Za-z\\d$@$!%*_?&~#\\\"'()+,-./:;<=>@]{8,20}";
+        return Pattern.matches(pattern, password);
     }
 
     private String encodePassword(String password) {

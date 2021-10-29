@@ -83,13 +83,16 @@ public class UserController {
             @ApiImplicitParam(name="socialType", dataType="String", paramType="query")})
     @ApiResponses({
             @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=400, message="적합한 데이터가 아님"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @ResponseStatus(value=HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateMyInfo(@ApiIgnore @ModelAttribute UserVO user) {
-        userService.updateMyInfo(user);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        if (userService.updateMyInfo(user)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @DeleteMapping("/user")
