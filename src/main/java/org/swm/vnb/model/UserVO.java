@@ -35,9 +35,9 @@ public class UserVO implements UserDetails {
     @ApiModelProperty(required = true, value="이메일 형식을 따라야 한다.")
     private String email;
 
-    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}")
+    @Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%_*?&~#\\\"'()+,-./:;<=>@])[A-Za-z\\d$@$!%*_?&~#\\\"'()+,-./:;<=>@]{8,20}")
     @NotBlank
-    @ApiModelProperty(required = true, value="영문 대소문자와 특수문자가 결합된 8자 이상 20자 이하의 비밀번호여야 한다.")
+    @ApiModelProperty(required = true, value="영문 대소문자와 숫자, 특수문자가 결합된 8자 이상 20자 이하의 비밀번호여야 한다.")
     private String password;
 
     @ApiModelProperty(hidden = true)
