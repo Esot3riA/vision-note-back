@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setAuthority("ROLE_USER");
-        user.setAvatar("avatar.png");
+        user.setAvatar("avatar.svg");
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
