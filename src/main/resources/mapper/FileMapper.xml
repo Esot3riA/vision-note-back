@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.swm.vnb.dao.FileDAO">
+    <select id="getFile" parameterType="HashMap" resultType="FileVO">
+        SELECT file_id, user_id, original_name, extension, path, size, created_at, updated_at
+        FROM file
+        WHERE
+            file_id = #{fileId}
+            AND user_id = #{userId}
+    </select>
+
+    <insert id="createFile" parameterType="FileVO" useGeneratedKeys="true" keyProperty="fileId">
+        INSERT INTO file
+            (user_id, original_name, saved_name, extension, path, size)
+        VALUES
+            (#{userId}, #{originalName}, #{savedName}, #{extension}, #{path}, #{size})
+    </insert>
+
+    <delete id="deleteFile" parameterType="HashMap">
+        DELETE FROM file
+        WHERE
+            file_id = #{fileId}
+            AND user_id = #{userId}
+    </delete>
+</mapper>

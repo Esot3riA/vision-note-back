@@ -7,10 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+import org.swm.vnb.model.FileVO;
 import org.swm.vnb.model.FullScriptVO;
 import org.swm.vnb.model.ScriptParagraphVO;
 import org.swm.vnb.model.ScriptVO;
 import org.swm.vnb.service.ScriptService;
+import org.swm.vnb.util.FileSaveUtil;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
@@ -19,10 +23,12 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ScriptController {
 
     private final ScriptService scriptService;
+    private final FileSaveUtil fileSaveUtil;
 
     @Autowired
-    public ScriptController(ScriptService scriptService) {
+    public ScriptController(ScriptService scriptService, FileSaveUtil fileSaveUtil) {
         this.scriptService = scriptService;
+        this.fileSaveUtil = fileSaveUtil;
     }
 
     @GetMapping("/script/{scriptId:[0-9]+}")
@@ -66,6 +72,38 @@ public class ScriptController {
         scriptService.updateScriptRecording(scriptId, isRecording);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @PostMapping("/script/audio/{scriptId:[0-9]+}")
+    @ApiOperation(value="오디오 파일 업로드", notes="스크립트에 해당하는 음성 파일을 업로드한다. 기존 음성 파일이 있었다면 새 음성 파일로 대체된다.")
+    @ApiResponses({
+            @ApiResponse(code=200, message="업로드 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity uploadFullAudio(@PathVariable Integer scriptId, @RequestParam("audio") MultipartFile audio) {
+        ScriptVO script = scriptService.getScript(scriptId);
+        if (script.getAudioFileId() != null) {
+            scriptService.updateScriptAudio(scriptId, null);
+            fileSaveUtil.deleteAudio(script.getAudioFileId());
+        }
+
+        String savedAudioName = "";
+        try {
+            FileVO savedAudio = fileSaveUtil.saveAudio(audio);
+            savedAudioName = savedAudio.getSavedName();
+
+            scriptService.updateScriptAudio(scriptId, savedAudio.getFileId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can't upload audio", e);
+        }
+
+        JsonObject responseObj = new JsonObject();
+        responseObj.addProperty("savedAudioName", savedAudioName);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(responseObj.toString());
     }
 
     @PostMapping("/script/paragraph/{scriptId:[0-9]+}")

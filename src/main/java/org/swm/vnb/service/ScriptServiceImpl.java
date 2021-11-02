@@ -27,14 +27,13 @@ public class ScriptServiceImpl implements ScriptService {
 
     @Override
     public FullScriptVO getFullScript(Integer scriptId) {
-        Map<String, Object> params = SecurityUtil.getUserParams();
-        params.put("scriptId", scriptId.toString());
-
-        ScriptVO script = scriptDAO.getScript(params);
+        ScriptVO script = getScript(scriptId);
 
         FullScriptVO fullScript = new FullScriptVO();
         fullScript.setScript(script);
         if (script != null) {
+            Map<String, Object> params = SecurityUtil.getUserParams();
+            params.put("scriptId", scriptId.toString());
             fullScript.setScriptParagraphs(scriptDAO.getScriptParagraphs(params));
 
             Map<String, Object> folderParams = SecurityUtil.getUserParams();
@@ -43,6 +42,14 @@ public class ScriptServiceImpl implements ScriptService {
         }
 
         return fullScript;
+    }
+
+    @Override
+    public ScriptVO getScript(Integer scriptId) {
+        Map<String, Object> params = SecurityUtil.getUserParams();
+        params.put("scriptId", scriptId.toString());
+
+        return scriptDAO.getScript(params);
     }
 
     @Override
@@ -71,6 +78,15 @@ public class ScriptServiceImpl implements ScriptService {
         params.put("isRecording", isRecording);
 
         scriptDAO.updateScriptRecording(params);
+    }
+
+    @Override
+    public void updateScriptAudio(Integer scriptId, Integer audioId) {
+        Map<String, Object> params = SecurityUtil.getUserParams();
+        params.put("scriptId", scriptId);
+        params.put("audioFileId", audioId);
+
+        scriptDAO.updateScriptAudio(params);
     }
 
     @Override

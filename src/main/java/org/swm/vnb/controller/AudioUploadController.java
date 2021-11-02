@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.swm.vnb.model.FileVO;
 import org.swm.vnb.util.FileSaveUtil;
 
 
@@ -41,8 +42,8 @@ public class AudioUploadController {
     @ApiOperation(value="오디오 파일 업로드", notes="강의 녹음 오디오 파일을 업로드하고 STT 결과를 받아온다.")
     public ResponseEntity convertAudio(@RequestParam("audio") MultipartFile audio) {
         try {
-            String audioName = fileSaveUtil.saveAudio(audio);
-            ResponseEntity<String> result = requestSTT(sttStoragePath + "/audio/" + audioName);
+            FileVO audioFile = fileSaveUtil.saveAudio(audio);
+            ResponseEntity<String> result = requestSTT(sttStoragePath + "/audio/" + audioFile.getSavedName());
             return result;
         } catch (Exception e) {
             e.printStackTrace();

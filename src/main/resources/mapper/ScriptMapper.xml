@@ -3,10 +3,12 @@
 <mapper namespace="org.swm.vnb.dao.ScriptDAO">
     <select id="getScript" parameterType="HashMap" resultType="ScriptVO">
         SELECT s.script_id, nf.category_id, sc.category_name, nf.file_name, s.is_recording,
-            s.audio_file, s.video_file, nf.folder_id, nf.is_important, nf.created_at, nf.updated_at
+            s.audio_file_id, f.saved_name AS audio_file_name, s.video_file_id,
+            nf.folder_id, nf.is_important, nf.created_at, nf.updated_at
         FROM script s
         INNER JOIN note_file nf ON s.script_id = nf.script_id
         INNER JOIN script_category sc ON nf.category_id = sc.category_id
+        INNER JOIN file f on s.audio_file_id = f.file_id
         WHERE
             s.script_id = #{scriptId}
             AND s.user_id = #{userId}
@@ -22,6 +24,14 @@
     <update id="updateScriptRecording" parameterType="HashMap">
         UPDATE script
         SET is_recording = #{isRecording}
+        WHERE
+            script_id = #{scriptId}
+            AND user_id = #{userId}
+    </update>
+
+    <update id="updateScriptAudio" parameterType="HashMap">
+        UPDATE script
+        SET audio_file_id = #{audioFileId}
         WHERE
             script_id = #{scriptId}
             AND user_id = #{userId}

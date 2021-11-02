@@ -14,6 +14,7 @@ public interface ScriptDAO {
     ScriptVO getScript(Map<String, Object> params);
     void createScript(ScriptVO script);
     void updateScriptRecording(Map<String, Object> params);
+    void updateScriptAudio(Map<String, Object> params);
 
     List<ScriptParagraphVO> getScriptParagraphs(Map<String, Object> params);
     void createParagraph(ScriptParagraphVO paragraph);

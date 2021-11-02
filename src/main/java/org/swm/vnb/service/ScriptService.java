@@ -6,8 +6,10 @@ import org.swm.vnb.model.ScriptVO;
 
 public interface ScriptService {
     FullScriptVO getFullScript(Integer scriptId);
+    ScriptVO getScript(Integer scriptId);
     void createScriptAndFile(ScriptVO script);
     void updateScriptRecording(Integer scriptId, Integer isRecording);
+    void updateScriptAudio(Integer scriptId, Integer audioId);
 
     void createParagraph(Integer scriptId, ScriptParagraphVO paragraph);
     void updateParagraph(Integer paragraphId, ScriptParagraphVO paragraph);

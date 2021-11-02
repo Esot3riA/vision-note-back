@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.swm.vnb.model.FileVO;
 import org.swm.vnb.model.UserTypeVO;
 import org.swm.vnb.model.UserVO;
 import org.springframework.http.HttpStatus;
@@ -109,23 +110,28 @@ public class UserController {
     }
 
     @PutMapping("/user/avatar")
-    @ApiOperation(value="유저 아바타 변경", notes="현재 로그인 된 유저의 아바타 이미지를 변경한다.")
+    @ApiOperation(value="유저 아바타 변경", notes="현재 로그인 된 유저의 아바타 이미지를 변경한다. 기존 아바타 이미지는 삭제된다.")
     @ApiResponses({
             @ApiResponse(code=201, message="변경 완료"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateMyAvatar(@RequestParam("profile") MultipartFile avatar) {
+        UserVO user = userService.getUserByContext();
+        if (user.getAvatar() != "avatar.svg") {
+            fileSaveUtil.deleteImage(user.getAvatar());
+        }
+
         if (!isValidImage(avatar)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not a valid image");
         }
         try {
-            String newAvatarName = fileSaveUtil.saveImage(avatar);
+            FileVO newAvatarInfo = fileSaveUtil.saveImage(avatar);
 
-            UserVO userVO = UserVO.builder().avatar(newAvatarName).build();
+            UserVO userVO = UserVO.builder().avatar(newAvatarInfo.getSavedName()).build();
             userService.updateMyInfo(userVO);
 
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("avatarName", newAvatarName);
+            jsonObject.addProperty("avatarName", newAvatarInfo.getSavedName());
 
             return ResponseEntity.status(HttpStatus.CREATED).body(jsonObject.toString());
         } catch (Exception e) {

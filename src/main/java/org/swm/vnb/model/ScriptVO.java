@@ -18,6 +18,18 @@ public class ScriptVO {
     private Integer categoryId;
 
     @ApiModelProperty(hidden = true)
+    private Integer audioFileId;
+
+    @ApiModelProperty(hidden = true)
+    private String audioFileName;
+
+    @ApiModelProperty(hidden = true)
+    private Integer videoFileId;
+
+    @ApiModelProperty(hidden = true)
+    private String videoFileName;
+
+    @ApiModelProperty(hidden = true)
     private String categoryName;
 
     @ApiModelProperty(required = true, example = "Test title")
@@ -25,10 +37,6 @@ public class ScriptVO {
 
     @ApiModelProperty(required = true, example = "0")
     private Integer isRecording;
-
-    private String audioFile;
-
-    private String videoFile;
 
     @ApiModelProperty(hidden = true)
     private Integer folderId;
