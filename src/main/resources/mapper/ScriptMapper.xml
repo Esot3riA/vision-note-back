@@ -8,7 +8,7 @@
         FROM script s
         INNER JOIN note_file nf ON s.script_id = nf.script_id
         INNER JOIN script_category sc ON nf.category_id = sc.category_id
-        INNER JOIN file f on s.audio_file_id = f.file_id
+        LEFT JOIN file f on s.audio_file_id = f.file_id
         WHERE
             s.script_id = #{scriptId}
             AND s.user_id = #{userId}

@@ -68,7 +68,7 @@ public class FileSaveUtil {
                 fos.write(file.getBytes());
             }
 
-            FileVO fileInfo = saveFileInfo(file, file.getOriginalFilename());
+            FileVO fileInfo = saveFileInfo(localFile, file.getOriginalFilename());
             return Optional.of(fileInfo);
         }
 
@@ -89,13 +89,13 @@ public class FileSaveUtil {
         }
     }
 
-    private FileVO saveFileInfo(MultipartFile savedFile, String originalFileName) {
+    private FileVO saveFileInfo(File savedFile, String originalFileName) {
         FileVO fileInfo = FileVO.builder()
                 .originalName(originalFileName)
                 .savedName(savedFile.getName())
-                .extension(FilenameUtils.getExtension(savedFile.getOriginalFilename()))
-                .path(savedFile.getOriginalFilename())
-                .size(savedFile.getSize())
+                .extension(FilenameUtils.getExtension(savedFile.getName()))
+                .path(savedFile.getAbsolutePath())
+                .size(savedFile.length())
                 .build();
 
         return fileService.createFile(fileInfo);

@@ -78,10 +78,15 @@ public class ScriptController {
     @ApiOperation(value="오디오 파일 업로드", notes="스크립트에 해당하는 음성 파일을 업로드한다. 기존 음성 파일이 있었다면 새 음성 파일로 대체된다.")
     @ApiResponses({
             @ApiResponse(code=200, message="업로드 성공"),
+            @ApiResponse(code=404, message="스크립트 없음"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity uploadFullAudio(@PathVariable Integer scriptId, @RequestParam("audio") MultipartFile audio) {
         ScriptVO script = scriptService.getScript(scriptId);
+        if (script == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
         if (script.getAudioFileId() != null) {
             scriptService.updateScriptAudio(scriptId, null);
             fileSaveUtil.deleteAudio(script.getAudioFileId());

@@ -10,6 +10,6 @@ import java.util.Map;
 @Mapper
 public interface FileDAO {
     FileVO getFile(Map<String, Object> params);
-    FileVO createFile(FileVO file);
+    void createFile(FileVO file);
     void deleteFile(Map<String, Object> params);
 }

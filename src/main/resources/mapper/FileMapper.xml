@@ -2,7 +2,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.swm.vnb.dao.FileDAO">
     <select id="getFile" parameterType="HashMap" resultType="FileVO">
-        SELECT file_id, user_id, original_name, extension, path, size, created_at, updated_at
+        SELECT file_id, user_id, original_name, saved_name, extension, path, size, created_at, updated_at
         FROM file
         WHERE
             file_id = #{fileId}

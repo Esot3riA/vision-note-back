@@ -29,8 +29,9 @@ public class FileServiceImpl implements FileService {
     public FileVO createFile(FileVO file) {
         Integer currentUserId = SecurityUtil.getCurrentUserId();
         file.setUserId(currentUserId);
+        fileDAO.createFile(file);
 
-        return fileDAO.createFile(file);
+        return file;
     }
 
     @Override
