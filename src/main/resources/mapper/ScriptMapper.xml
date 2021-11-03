@@ -16,9 +16,9 @@
 
     <insert id="createScript" parameterType="ScriptVO" useGeneratedKeys="true" keyProperty="scriptId">
         INSERT INTO script
-            (user_id, is_recording, audio_file, video_file)
+            (user_id, is_recording)
         VALUES
-            (#{userId}, #{isRecording}, #{audioFile}, #{videoFile})
+            (#{userId}, #{isRecording})
     </insert>
 
     <update id="updateScriptRecording" parameterType="HashMap">
