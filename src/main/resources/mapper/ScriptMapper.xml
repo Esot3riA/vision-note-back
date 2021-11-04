@@ -109,4 +109,19 @@
         DELETE FROM script_paragraph
         WHERE user_id = #{userId}
     </delete>
+
+    <insert id="createParagraphKeyword" parameterType="ScriptParagraphKeywordVO" useGeneratedKeys="true" keyProperty="keywordId">
+        INSERT INTO script_paragraph_keyword
+            (paragraph_id, user_id, keyword)
+        VALUES
+            (#{paragraphId}, #{userId}, #{keyword})
+    </insert>
+    <delete id="deleteParagraphKeyword" parameterType="HashMap">
+        DELETE FROM script_paragraph_keyword
+        WHERE
+            paragraph_id = #{paragraphId}
+            AND keyword = #{keyword}
+            AND user_id = #{userId}
+    </delete>
+
 </mapper>

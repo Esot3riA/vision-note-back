@@ -3,6 +3,8 @@ package org.swm.vnb.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ScriptParagraphVO {
 
@@ -38,6 +40,9 @@ public class ScriptParagraphVO {
 
     @ApiModelProperty(hidden = true)
     private String updatedAt;
+
+    @ApiModelProperty(hidden = true)
+    private List<ScriptParagraphVO> keywords;
 
     public boolean hasPracticalValues() {
         return startTime != null

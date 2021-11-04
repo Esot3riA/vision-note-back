@@ -2,6 +2,7 @@ package org.swm.vnb.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+import org.swm.vnb.model.ScriptParagraphKeywordVO;
 import org.swm.vnb.model.ScriptParagraphVO;
 import org.swm.vnb.model.ScriptVO;
 
@@ -29,4 +30,7 @@ public interface ScriptDAO {
 
     void deleteParagraphsByScriptId(Map<String, Object> params);
     void deleteParagraphsByUserId(Integer userId);
+
+    ScriptParagraphKeywordVO createParagraphKeyword(ScriptParagraphKeywordVO paragraphKeyword);
+    void deleteParagraphKeyword(Map<String, Object> params);
 }

@@ -9,10 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.swm.vnb.model.FileVO;
-import org.swm.vnb.model.FullScriptVO;
-import org.swm.vnb.model.ScriptParagraphVO;
-import org.swm.vnb.model.ScriptVO;
+import org.swm.vnb.model.*;
 import org.swm.vnb.service.ScriptService;
 import org.swm.vnb.util.FileSaveUtil;
 import springfox.documentation.annotations.ApiIgnore;
@@ -159,4 +156,29 @@ public class ScriptController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
+    @PostMapping("/script/paragraph/keyword/{paragraphId:[0-9]+}")
+    @ApiOperation(value="스크립트 문단 키워드 등록", notes="주어진 paragraph ID에 새 강조 키워드를 추가한다.")
+    @ApiResponses({
+            @ApiResponse(code=201, message="생성 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity createKeyword(@PathVariable Integer paragraphId, @RequestParam String keyword) {
+        scriptService.createParagraphKeyword(paragraphId, keyword);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(keyword);
+    }
+
+    @DeleteMapping("/script/paragraph/keyword/{paragraphId:[0-9]+}")
+    @ApiOperation(value="스크립트 문단 키워드 삭제", notes="주어진 paragraph ID의 강조 키워드를 삭제한다.")
+    @ApiResponses({
+            @ApiResponse(code=201, message="삭제 성공"),
+            @ApiResponse(code=401, message="로그인되지 않음")})
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity deleteKeyword(@PathVariable Integer paragraphId, @RequestParam String keyword) {
+        scriptService.deleteParagraphKeyword(paragraphId, keyword);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
 }

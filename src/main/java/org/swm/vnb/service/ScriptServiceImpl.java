@@ -5,13 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.swm.vnb.dao.NoteDAO;
 import org.swm.vnb.dao.ScriptDAO;
-import org.swm.vnb.model.FullScriptVO;
-import org.swm.vnb.model.NoteFileVO;
-import org.swm.vnb.model.ScriptParagraphVO;
-import org.swm.vnb.model.ScriptVO;
+import org.swm.vnb.model.*;
 import org.swm.vnb.util.SecurityUtil;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -115,8 +111,29 @@ public class ScriptServiceImpl implements ScriptService {
     @Override
     public void deleteParagraph(Integer paragraphId) {
         Map<String, Object> params = SecurityUtil.getUserParams();
-        params.put("paragraphId", paragraphId.toString());
+        params.put("paragraphId", paragraphId);
 
         scriptDAO.deleteParagraph(params);
+    }
+
+    @Override
+    public ScriptParagraphKeywordVO createParagraphKeyword(Integer paragraphId, String keyword) {
+        ScriptParagraphKeywordVO paragraphKeyword = ScriptParagraphKeywordVO.builder()
+                .paragraphId(paragraphId)
+                .userId(SecurityUtil.getCurrentUserId())
+                .keyword(keyword)
+                .build();
+
+        scriptDAO.createParagraphKeyword(paragraphKeyword);
+        return paragraphKeyword;
+    }
+
+    @Override
+    public void deleteParagraphKeyword(Integer paragraphId, String keyword) {
+        Map<String, Object> params = SecurityUtil.getUserParams();
+        params.put("paragraphId", paragraphId);
+        params.put("keyword", keyword);
+
+        scriptDAO.deleteParagraphKeyword(params);
     }
 }

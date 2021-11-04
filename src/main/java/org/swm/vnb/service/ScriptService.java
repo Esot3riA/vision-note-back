@@ -1,6 +1,7 @@
 package org.swm.vnb.service;
 
 import org.swm.vnb.model.FullScriptVO;
+import org.swm.vnb.model.ScriptParagraphKeywordVO;
 import org.swm.vnb.model.ScriptParagraphVO;
 import org.swm.vnb.model.ScriptVO;
 
@@ -14,4 +15,7 @@ public interface ScriptService {
     void createParagraph(Integer scriptId, ScriptParagraphVO paragraph);
     void updateParagraph(Integer paragraphId, ScriptParagraphVO paragraph);
     void deleteParagraph(Integer paragraphId);
+
+    ScriptParagraphKeywordVO createParagraphKeyword(Integer paragraphId, String keyword);
+    void deleteParagraphKeyword(Integer paragraphId, String keyword);
 }
