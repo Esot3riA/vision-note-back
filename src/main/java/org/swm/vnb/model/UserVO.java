@@ -47,6 +47,9 @@ public class UserVO implements UserDetails {
     @ApiModelProperty(required = true)
     private String nickname;
 
+    @ApiModelProperty(hidden = true)
+    private Double totalMemoryUsage;
+
     @NotBlank
     @ApiModelProperty(required = true)
     private String avatar;
