@@ -18,6 +18,7 @@ public interface ScriptDAO {
     void updateScriptAudio(Map<String, Object> params);
 
     List<ScriptParagraphVO> getScriptParagraphs(Map<String, Object> params);
+    List<ScriptParagraphKeywordVO> getParagraphKeywords(Map<String, Object> params);
     void createParagraph(ScriptParagraphVO paragraph);
     void updateParagraph(ScriptParagraphVO paragraph);
     void deleteParagraph(Map<String, Object> params);
@@ -31,6 +32,6 @@ public interface ScriptDAO {
     void deleteParagraphsByScriptId(Map<String, Object> params);
     void deleteParagraphsByUserId(Integer userId);
 
-    ScriptParagraphKeywordVO createParagraphKeyword(ScriptParagraphKeywordVO paragraphKeyword);
+    void createParagraphKeyword(ScriptParagraphKeywordVO paragraphKeyword);
     void deleteParagraphKeyword(Map<String, Object> params);
 }

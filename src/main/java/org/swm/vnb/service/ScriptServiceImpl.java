@@ -8,6 +8,7 @@ import org.swm.vnb.dao.ScriptDAO;
 import org.swm.vnb.model.*;
 import org.swm.vnb.util.SecurityUtil;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -30,7 +31,15 @@ public class ScriptServiceImpl implements ScriptService {
         if (script != null) {
             Map<String, Object> params = SecurityUtil.getUserParams();
             params.put("scriptId", scriptId.toString());
-            fullScript.setScriptParagraphs(scriptDAO.getScriptParagraphs(params));
+            List<ScriptParagraphVO> paragraphs = scriptDAO.getScriptParagraphs(params);
+
+            // Get paragraph keywords
+            Map<String, Object> keywordParams = SecurityUtil.getUserParams();
+            for (ScriptParagraphVO paragraph : paragraphs) {
+                keywordParams.put("paragraphId", paragraph.getParagraphId());
+                paragraph.setKeywords(scriptDAO.getParagraphKeywords(keywordParams));
+            }
+            fullScript.setScriptParagraphs(paragraphs);
 
             Map<String, Object> folderParams = SecurityUtil.getUserParams();
             folderParams.put("folderId", script.getFolderId());

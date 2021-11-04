@@ -47,6 +47,14 @@
             AND s.user_id = #{userId}
     </select>
 
+    <select id="getParagraphKeywords" parameterType="HashMap" resultType="ScriptParagraphKeywordVO">
+        SELECT keyword_id, paragraph_id, user_id, keyword, created_at, updated_at
+        FROM script_paragraph_keyword
+        WHERE
+            paragraph_id = #{paragraphId}
+            AND user_id = #{userId}
+    </select>
+
     <insert id="createParagraph" parameterType="ScriptParagraphVO" useGeneratedKeys="true" keyProperty="paragraphId">
         INSERT INTO script_paragraph
             (script_id, user_id, paragraph_sequence, start_time,

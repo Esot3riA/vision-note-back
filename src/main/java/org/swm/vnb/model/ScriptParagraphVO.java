@@ -42,7 +42,7 @@ public class ScriptParagraphVO {
     private String updatedAt;
 
     @ApiModelProperty(hidden = true)
-    private List<ScriptParagraphVO> keywords;
+    private List<ScriptParagraphKeywordVO> keywords;
 
     public boolean hasPracticalValues() {
         return startTime != null
