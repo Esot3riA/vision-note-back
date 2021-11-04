@@ -89,13 +89,13 @@
     </delete>
 
     <delete id="deleteKeywordsByScriptId" parameterType="HashMap">
-        DELETE FROM script_keyword
+        DELETE FROM script_paragraph_keyword
         WHERE
             script_id = #{scriptId}
             AND user_id = #{userId}
     </delete>
     <delete id="deleteKeywordsByUserId" parameterType="int">
-        DELETE FROM script_keyword
+        DELETE FROM script_paragraph_keyword
         WHERE user_id = #{userId}
     </delete>
 
