@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class ScriptParagraphKeywordVO {
     private Integer keywordId;
     private Integer paragraphId;
+    private Integer scriptId;
     private Integer userId;
     private String keyword;
     private String createdAt;

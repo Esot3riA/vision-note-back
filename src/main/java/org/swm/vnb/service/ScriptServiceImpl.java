@@ -52,9 +52,17 @@ public class ScriptServiceImpl implements ScriptService {
     @Override
     public ScriptVO getScript(Integer scriptId) {
         Map<String, Object> params = SecurityUtil.getUserParams();
-        params.put("scriptId", scriptId.toString());
+        params.put("scriptId", scriptId);
 
         return scriptDAO.getScript(params);
+    }
+
+    @Override
+    public Integer getScriptIdByParagraphId(Integer paragraphId) {
+        Map<String, Object> params = SecurityUtil.getUserParams();
+        params.put("paragraphId", paragraphId);
+
+        return scriptDAO.getScriptIdByParagraphId(params);
     }
 
     @Override
@@ -127,8 +135,11 @@ public class ScriptServiceImpl implements ScriptService {
 
     @Override
     public ScriptParagraphKeywordVO createParagraphKeyword(Integer paragraphId, String keyword) {
+        Integer scriptId = getScriptIdByParagraphId(paragraphId);
+
         ScriptParagraphKeywordVO paragraphKeyword = ScriptParagraphKeywordVO.builder()
                 .paragraphId(paragraphId)
+                .scriptId(scriptId)
                 .userId(SecurityUtil.getCurrentUserId())
                 .keyword(keyword)
                 .build();

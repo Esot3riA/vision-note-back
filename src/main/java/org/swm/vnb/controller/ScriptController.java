@@ -170,7 +170,7 @@ public class ScriptController {
                 .body(paragraphKeyword);
     }
 
-    @DeleteMapping("/script/paragraph/keyword/{paragraphId:[0-9]+}")
+    @PostMapping("/script/paragraph/keyword/delete/{paragraphId:[0-9]+}")
     @ApiOperation(value="스크립트 문단 키워드 삭제", notes="주어진 paragraph ID의 강조 키워드를 삭제한다.")
     @ApiResponses({
             @ApiResponse(code=204, message="삭제 성공"),

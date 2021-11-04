@@ -141,8 +141,8 @@ public class NoteServiceImpl implements NoteService {
 
         noteDAO.deleteNoteFile(params);
 
-        scriptDAO.deleteParagraphsByScriptId(params);
         scriptDAO.deleteKeywordsByScriptId(params);
+        scriptDAO.deleteParagraphsByScriptId(params);
         scriptDAO.deleteScript(params);
     }
 

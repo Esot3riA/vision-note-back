@@ -47,6 +47,14 @@
             AND s.user_id = #{userId}
     </select>
 
+    <select id="getScriptIdByParagraphId" parameterType="HashMap" resultType="Integer">
+        SELECT script_id
+        FROM script_paragraph
+        WHERE
+            paragraph_id = #{paragraphId}
+            AND user_id = #{userId}
+    </select>
+
     <select id="getParagraphKeywords" parameterType="HashMap" resultType="ScriptParagraphKeywordVO">
         SELECT keyword_id, paragraph_id, user_id, keyword, created_at, updated_at
         FROM script_paragraph_keyword
@@ -120,9 +128,9 @@
 
     <insert id="createParagraphKeyword" parameterType="ScriptParagraphKeywordVO" useGeneratedKeys="true" keyProperty="keywordId">
         INSERT INTO script_paragraph_keyword
-            (paragraph_id, user_id, keyword)
+            (paragraph_id, script_id, user_id, keyword)
         VALUES
-            (#{paragraphId}, #{userId}, #{keyword})
+            (#{paragraphId}, #{scriptId}, #{userId}, #{keyword})
     </insert>
     <delete id="deleteParagraphKeyword" parameterType="HashMap">
         DELETE FROM script_paragraph_keyword
