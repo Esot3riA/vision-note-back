@@ -110,11 +110,17 @@ public class ScriptController {
 
     @PostMapping("/script/paragraph/{scriptId:[0-9]+}")
     @ApiOperation(value="스크립트 문단 생성", notes="주어진 script ID에 새 문단을 추가한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="startTime", dataType="int", paramType="query", example="0"),
+            @ApiImplicitParam(name="endTime", dataType="int", paramType="query", example="20"),
+            @ApiImplicitParam(name="paragraphContent", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="paragraphSequence", dataType="int", paramType="query", example="0")})
     @ApiResponses({
             @ApiResponse(code=201, message="생성 성공"),
             @ApiResponse(code=401, message="로그인되지 않음")})
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity createParagraph(@PathVariable Integer scriptId, @ModelAttribute ScriptParagraphVO paragraph) {
+    public ResponseEntity createParagraph(@PathVariable Integer scriptId,
+                                          @ApiIgnore @ModelAttribute ScriptParagraphVO paragraph) {
         scriptService.createParagraph(scriptId, paragraph);
 
         JsonObject responseObj = new JsonObject();
