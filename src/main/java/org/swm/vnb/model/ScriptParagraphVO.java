@@ -20,11 +20,11 @@ public class ScriptParagraphVO {
     @ApiModelProperty(required = true, example = "1")
     private Integer paragraphSequence;
 
-    @ApiModelProperty(required = true, example = "00:00")
-    private String startTime;
+    @ApiModelProperty(required = true, example = "0")
+    private Integer startTime;
 
-    @ApiModelProperty(required = true, example = "01:00")
-    private String endTime;
+    @ApiModelProperty(required = true, example = "20")
+    private Integer endTime;
 
     @ApiModelProperty(required = true)
     private String paragraphContent;

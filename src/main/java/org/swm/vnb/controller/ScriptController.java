@@ -128,8 +128,8 @@ public class ScriptController {
     @PutMapping("/script/paragraph/{paragraphId:[0-9]+}")
     @ApiOperation(value="스크립트 문단 수정", notes="주어진 paragraph ID에 해당하는 문단 정보를 수정한다. 파라미터로 제공된 요소들만 수정된다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="startTime", dataType="String", paramType="query"),
-            @ApiImplicitParam(name="endTime", dataType="String", paramType="query"),
+            @ApiImplicitParam(name="startTime", dataType="int", paramType="query", example="0"),
+            @ApiImplicitParam(name="endTime", dataType="int", paramType="query", example="20"),
             @ApiImplicitParam(name="paragraphContent", dataType="String", paramType="query"),
             @ApiImplicitParam(name="memoContent", dataType="String", paramType="query"),
             @ApiImplicitParam(name="isBookmarked", dataType="int", paramType="query", example="0")})
