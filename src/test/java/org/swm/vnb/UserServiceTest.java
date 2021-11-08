@@ -33,8 +33,8 @@ public class UserServiceTest {
     void createAndVerifyUser() {
         // given
         UserVO user = UserVO.builder()
-                .email("esot6ria@gmail.com")
-                .password("1q2w3e")
+                .email("ust@ust.com")
+                .password("asdf1234D@")
                 .nickname("eso")
                 .avatar("avatar.png")
                 .socialType("NORMAL")

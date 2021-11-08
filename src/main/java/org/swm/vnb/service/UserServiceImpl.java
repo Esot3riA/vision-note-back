@@ -58,7 +58,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createUser(UserVO user) throws RuntimeException {
-        if (userDAO.getUserByEmail(user.getEmail()).getUserId() != null) {
+
+        UserVO duplicatedUser = userDAO.getUserByEmail(user.getEmail());
+        if (isValidUser(duplicatedUser)) {
             throw new RuntimeException("이미 가입된 유저입니다.");
         }
 
@@ -75,6 +77,10 @@ public class UserServiceImpl implements UserService {
         rootFolder.setParentFolderId(null);
 
         noteDAO.createNoteFolder(rootFolder);
+    }
+
+    private boolean isValidUser(UserVO user) {
+        return user != null && user.getUserId() != null;
     }
 
     @Override
