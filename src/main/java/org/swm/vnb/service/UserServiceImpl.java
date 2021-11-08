@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createUser(UserVO user) throws RuntimeException {
-        if (userDAO.getUserByEmail(user.getEmail()) != null) {
+        if (userDAO.getUserByEmail(user.getEmail()).getUserId() != null) {
             throw new RuntimeException("이미 가입된 유저입니다.");
         }
 
