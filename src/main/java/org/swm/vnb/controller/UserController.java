@@ -2,6 +2,8 @@ package org.swm.vnb.controller;
 
 import com.google.gson.JsonObject;
 import io.swagger.annotations.*;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.Errors;
@@ -107,6 +109,24 @@ public class UserController {
         userService.deleteMyAccount();
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @PostMapping("/user/find-password")
+    @ApiOperation(value="비밀번호 찾기", notes="유저 비밀번호를 초기화하고 유저 메일로 초기화 된 비밀번호 정보를 전송한다. 닉네임과 이메일 정보가 유효해야 한다.")
+    @ApiResponses({
+            @ApiResponse(code=204, message="표시 정보 없음"),
+            @ApiResponse(code=400, message="유효한 유저 정보가 아님")})
+    public ResponseEntity findMyPassword(@RequestParam String email, @RequestParam String nickname) {
+
+        UserVO user = userService.getUserByEmail(email);
+        if (user == null || !StringUtils.equals(user.getNickname(), nickname)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        String randomPassword = RandomStringUtils.randomAlphanumeric(16);
+        userService.resetPassword(email, randomPassword);
+
+        return ResponseEntity.ok(null);
     }
 
     @PutMapping("/user/avatar")

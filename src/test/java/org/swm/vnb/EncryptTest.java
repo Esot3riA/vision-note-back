@@ -34,7 +34,7 @@ public class EncryptTest {
 
     @Test
     public void EncryptAndDecryptTest() {
-        String plainText = "plainText";
+        String plainText = "egunilee@gmail.com";
 
         String encryptedText = encryptor.encrypt(plainText);
         logger.info(" Original Text :\t" + plainText);

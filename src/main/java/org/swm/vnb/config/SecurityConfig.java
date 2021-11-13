@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/v1/authenticate").permitAll()
                 .antMatchers("/v1/user-types").permitAll()
-                .antMatchers("/v1/audio/**").permitAll()
+                .antMatchers("/v1/user/find-password").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/user").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()

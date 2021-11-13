@@ -7,6 +7,18 @@ spring:
     url: ENC(zITM5/nYwUxhXdNh0mEJulABglRAES5XIabttUBVihQgVXxT7iWhu8bFIYGWswNkbMCi5dscNwXzeHuD9qSHZ1WJCQaF39T9esLVcJmIqKBRornFBkgfs+zGdKWQQuSXZeYpl2k0us7dtWILZZsHLrZYhTYeK5bp/9nB74z9Vd8=)
     username: ENC(gvDA85V2d12rNTcPrr+W6h3ATK7NuHMURqxQWVTJmkpio94Ccduk9XYIzPZ+gcYP)
     password: ENC(VfYNpP98DxB3rZuke/EWyckynIX9+jP0wxd9ymw4LSv5LApiNR8/bmN2lnU5mNKt)
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(ANflT6fP+WR/9iqNAUj7/046/kqHR8Z4D4Mly1YoyjKk+LWY3RVepvP8W3RFqo5AEpxXGzFmbN6WMXJ6mDe34g==)
+    password: ENC(an41sFHIbOBsMAKdgEdUNYoGR6eNI52hCPaY7e1PYeJRIEgkEgw5H/N5CpFnq1/wBs4/NM8wusOjj+4z8jZCaA==)
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
   config:
     activate:
       on-profile: dev

@@ -13,5 +13,6 @@ public interface UserService {
     List<UserTypeVO> getUserTypes();
     void createUser(UserVO user);
     boolean updateMyInfo(UserVO user);
+    void resetPassword(String email, String randomPassword);
     void deleteMyAccount();
 }

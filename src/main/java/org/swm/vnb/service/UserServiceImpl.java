@@ -11,6 +11,7 @@ import org.swm.vnb.dao.UserDAO;
 import org.swm.vnb.model.NoteFolderVO;
 import org.swm.vnb.model.UserTypeVO;
 import org.swm.vnb.model.UserVO;
+import org.swm.vnb.util.EmailSendUtil;
 import org.swm.vnb.util.SecurityUtil;
 
 import java.util.List;
@@ -22,13 +23,16 @@ public class UserServiceImpl implements UserService {
     private final NoteDAO noteDAO;
     private final ScriptDAO scriptDAO;
     private final PasswordEncoder passwordEncoder;
+    private final EmailSendUtil emailSendUtil;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, NoteDAO noteDAO, ScriptDAO scriptDAO, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO, NoteDAO noteDAO, ScriptDAO scriptDAO,
+                           PasswordEncoder passwordEncoder, EmailSendUtil emailSendUtil) {
         this.userDAO = userDAO;
         this.noteDAO = noteDAO;
         this.scriptDAO = scriptDAO;
         this.passwordEncoder = passwordEncoder;
+        this.emailSendUtil = emailSendUtil;
     }
 
     @Override
@@ -96,6 +100,23 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodePassword(user.getPassword()));
         userDAO.updateUser(user);
         return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void resetPassword(String email, String randomPassword) {
+        UserVO user = getUserByEmail(email);
+
+        UserVO newUser = UserVO.builder()
+                .userId(user.getUserId())
+                .password(encodePassword(randomPassword))
+                .build();
+        userDAO.updateUser(newUser);
+
+        String subject = "비전노트 비밀번호 초기화 메일";
+        String content = "초기화된 비밀번호는 " + randomPassword + " 입니다.";
+
+        emailSendUtil.sendMessage(email, subject, content);
     }
 
     @Override

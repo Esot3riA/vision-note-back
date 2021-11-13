@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,7 @@ public class AudioUploadController {
 
     @PostMapping("/audio")
     @ApiOperation(value="오디오 파일 업로드", notes="강의 녹음 오디오 파일을 업로드하고 STT 결과를 받아온다.")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity convertAudio(@RequestParam("audio") MultipartFile audio) {
         try {
             FileVO audioFile = fileSaveUtil.saveAudio(audio);
