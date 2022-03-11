@@ -15,12 +15,22 @@ LGTM 팀 비전노트 서비스 RESTful API 서버
 * MyBatis
 * MariaDB
 * Swagger UI
-* AWS Lightsail + RDS
+* AWS Lightsail, EC2, RDS
+
+### Screenshots
+
+![1](./img/1.png)
+
+![2](./img/2.png)
+
+![3](./img/3.png)
 
 ### Structure
 ![structure](./img/structure.png)
 
 ![swaggerui](./img/swaggerui.png)
+
+![swaggerui](./img/erd.png)
 
 ## Caution
 * 실행 시 OS 환경변수에 적절한 JASYPT_ENCRYPTOR_PASSWORD 지정해 줄 것
